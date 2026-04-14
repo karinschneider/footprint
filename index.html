@@ -126,6 +126,87 @@
     }
 
     initSystem();
+<script>
+    async function initSystem() {
+        const body = document.getElementById('data-body');
+        
+        try {
+            // Updated to fetch your specific .vcs filename
+            const response = await fetch('data.vcs'); 
+            if (!response.ok) throw new Error('File data.vcs not found');
+            
+            const csvText = await response.text();
+            // Splits text into rows and removes the header (Date, Category, Description)
+            const rows = csvText.trim().split('\n').slice(1);
+            
+            const workData = rows.map(row => {
+                const firstComma = row.indexOf(',');
+                const secondComma = row.indexOf(',', firstComma + 1);
+                
+                const year = row.substring(0, firstComma);
+                const type = row.substring(firstComma + 1, secondComma).trim();
+                const fullDescription = row.substring(secondComma + 1);
+                
+                // Splits at semicolon: Title before, Detail after
+                const parts = fullDescription.split(';');
+                const title = parts[0].trim();
+                const detail = parts.slice(1).join(';').trim();
+
+                return { year, type, title, detail };
+            });
+
+            body.innerHTML = workData.map(item => {
+                let filterClass = item.type.toLowerCase();
+                // Map your specific tags to the button labels in index.html
+                if (['solo', 'group', 'screening'].includes(filterClass)) filterClass = 'shows';
+                if (filterClass === 'time-based media') filterClass = 'film';
+                if (filterClass === '+') filterClass = 'other';
+
+                return `
+                <tr class="data-row" data-filter="${filterClass}">
+                    <td class="col-year">${item.year}</td>
+                    <td class="col-type">${item.type}</td>
+                    <td class="col-content">
+                        <strong>${item.title}</strong>${detail ? ` — ${detail}` : ''}
+                    </td>
+                </tr>
+                `;
+            }).join('');
+
+            // Automatically build the navigation buttons
+            const categories = ["code", "collections", "film", "founding", "publications", "shows", "writing"];
+            const nav = document.getElementById('nav-filters');
+            nav.innerHTML = `<button class="filter-btn active" onclick="filter('all')">All</button>`;
+            categories.forEach(cat => {
+                nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+            });
+            nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
+
+        } catch (e) {
+            console.error(e);
+            body.innerHTML = "<tr><td colspan='3' style='padding:40px; opacity:0.5;'>System link error: Ensure 'data.vcs' is in the same folder as index.html.</td></tr>";
+        }
+    }
+
+    function filter(type) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            const label = btn.innerText.toLowerCase();
+            const isActive = (type === 'other' && btn.innerText === '+') || label === type || (type === 'all' && label === 'all');
+            btn.classList.toggle('active', isActive);
+        });
+        document.querySelectorAll('.data-row').forEach(row => {
+            row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
+        });
+    }
+
+    function toggleMode() { 
+        document.body.classList.toggle('dark-mode');
+        const nameDisplay = document.getElementById('main-name');
+        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
+    }
+
+    // This command starts the whole system
+    initSystem();
 </script>
 
 </body>

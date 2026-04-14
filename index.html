@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karin Schneider | System Index</title>
+    <style>
+        :root { --bg: #ffffff; --text: #000000; --accent: #666666; --border: #dddddd; }
+        body.dark-mode { --bg: #000000; --text: #ffffff; --accent: #999999; --border: #333333; }
+        
+        body { 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            background-color: var(--bg); color: var(--text); margin: 40px; 
+            font-size: 13px; line-height: 1.5; letter-spacing: -0.01em; 
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        header { margin-bottom: 60px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
+        .header-top { display: flex; justify-content: space-between; align-items: baseline; }
+        
+        /* The dual-name title */
+        .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .controls { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn, .mode-toggle { 
+            border: 1px solid var(--text); background: none; padding: 4px 12px; 
+            cursor: pointer; font-size: 11px; text-transform: uppercase; 
+            font-weight: 500; color: var(--text); transition: all 0.2s;
+        }
+        .filter-btn.active { background: var(--text); color: var(--bg); }
+
+        .matrix { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; font-size: 10px; text-transform: uppercase; color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--text); }
+        td { padding: 12px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+        
+        .col-year { width: 100px; font-weight: bold; }
+        .col-type { width: 120px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
+        
+        .hidden { display: none; }
+        a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div class="title" id="main-name">Karin Schneider</div>
+        <button class="mode-toggle" onclick="toggleMode()">Invert System</button>
+    </div>
+    <div class="controls" id="nav-filters">
+        <button class="filter-btn active" onclick="filter('all')">All</button>
+    </div>
+</header>
+
+<table class="matrix">
+    <thead>
+        <tr>
+            <th class="col-year">Year</th>
+            <th class="col-type">Mode</th>
+            <th class="col-content">Entry / Context</th>
+        </tr>
+    </thead>
+    <tbody id="data-body"></tbody>
+</table>
+
+<script>
+    const workData = [
+        { year: "2026", type: "solo", title: "Gifts of Friendship", detail: "Museum of Art in Łódź, Poland", link: "#" },
+        { year: "2025", type: "solo", title: "Mar 01", detail: "Casarão de Manguinhos, Brasil", link: "#" },
+        { year: "2024–Now", type: "code", title: "ChromaStack", detail: "Monochromatic Repository / Open System", link: "http://chromastack.com" },
+        { year: "2024", type: "solo", title: "Repara aí, mana!", detail: "Casa das Onze Janelas, Belém, Brazil", link: "#" },
+        { year: "2023", type: "publications", title: "Art from the End of the World", detail: "Editor — Roberto Jacoby monograph", link: "#" },
+        { year: "2019", type: "group", title: "Absolute Threshold", detail: "Galerie Franchesca Pia, Zurich", link: "#" },
+        { year: "2018", type: "solo", title: "Milchhof Diagram", detail: "Solo — Kunstverein Nürnberg", link: "#" },
+        { year: "2018", type: "group", title: "A Fatal Attraction", detail: "Galerie Barbara Weiss, Berlin", link: "#" },
+        { year: "2016", type: "solo", title: "Situational Diagram", detail: "Dominique Lévy Gallery, New York", link: "#" },
+        { year: "Permanent", type: "collections", title: "Whitney Museum of American Art", detail: "New York", link: "#" },
+        { year: "Ongoing", type: "other", title: "IDONOTHAVETRADEMARK", detail: "Systemic Intervention", link: "#" }
+    ];
+
+    function initSystem() {
+        const body = document.getElementById('data-body');
+        body.innerHTML = workData.map(item => {
+            const filterClass = (item.type === 'solo' || item.type === 'group') ? 'shows' : item.type;
+            return `
+            <tr class="data-row" data-filter="${filterClass}">
+                <td class="col-year">${item.year}</td>
+                <td class="col-type">${item.type === 'other' ? '+' : item.type}</td>
+                <td class="col-content">
+                    <strong>${item.title}</strong> — ${item.detail} 
+                    ${item.link !== '#' ? `<a href="${item.link}" target="_blank">↗</a>` : ''}
+                </td>
+            </tr>
+        `}).join('');
+
+        const categories = ["code", "collections", "film", "founding", "publications", "shows", "writing"];
+        const nav = document.getElementById('nav-filters');
+        categories.forEach(cat => {
+            nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+        });
+        nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
+    }
+
+    function filter(type) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            const label = btn.innerText.toLowerCase();
+            const isActive = (type === 'other' && btn.innerText === '+') || label === type || (type === 'all' && label === 'all');
+            btn.classList.toggle('active', isActive);
+        });
+        document.querySelectorAll('.data-row').forEach(row => {
+            row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
+        });
+    }
+
+    function toggleMode() { 
+        document.body.classList.toggle('dark-mode');
+        const nameDisplay = document.getElementById('main-name');
+        
+        // Logical flip: Inverted system = Protocol Name
+        if (document.body.classList.contains('dark-mode')) {
+            nameDisplay.innerText = "K.ari.n Schneider";
+        } else {
+            nameDisplay.innerText = "Karin Schneider";
+        }
+    }
+
+    initSystem();
+</script>
+
+</body>
+</html>

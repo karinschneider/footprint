@@ -18,7 +18,6 @@
 
         header { margin-bottom: 60px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
         .header-top { display: flex; justify-content: space-between; align-items: baseline; }
-        
         .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
         
         .controls { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
@@ -29,30 +28,29 @@
         }
         .filter-btn.active { background: var(--text); color: var(--bg); }
 
-        .matrix { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .matrix { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
         th { text-align: left; font-size: 10px; text-transform: uppercase; color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--text); }
         td { padding: 12px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
         
-        .col-year { width: 80px; font-weight: bold; }
-       .col-mode { width: 100px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
-        .col-entry { width: 25%; font-weight: bold; }
-        .col-venue { width: 25%; }
-        .col-location { width: 20%; color: var(--accent); }
+        .col-year { width: 60px; font-weight: bold; }
+        .col-mode { width: 110px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
+        .col-main { width: auto; }
+        .col-venue { width: 20%; }
+        .col-location { width: 15%; color: var(--accent); }
         
         .hidden { display: none; }
-        a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--accent); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="header-top">
-        <div class="title" id="main-name">Karin Schneider</div>
+        <div id="main-name" class="title">KARIN SCHNEIDER</div>
         <button class="mode-toggle" onclick="toggleMode()">Invert System</button>
     </div>
     <div class="controls" id="nav-filters">
-        <button class="filter-btn active" onclick="filter('all')">All</button>
-        </div>
+        <button class="filter-btn active" onclick="filter('all')">all</button>
+    </div>
 </header>
 
 <table class="matrix">
@@ -60,7 +58,7 @@
         <tr>
             <th class="col-year">Year</th>
             <th class="col-mode">Mode</th>
-            <th class="col-entry">Entry / Context</th>
+            <th class="col-main">Entry / Context</th>
             <th class="col-venue">Venue</th>
             <th class="col-location">Location</th>
         </tr>
@@ -69,66 +67,64 @@
 </table>
 
 <script>
-    // Note: I've updated the mapping logic below so you can use these natural types in your data.
-    const workData = [
-        { year: "2026", type: "Solo", title: "Gifts of Friendship", venue: "Museum of Art in Łódź", location: "Poland" },
-        { year: "2024", type: "Code", title: "ChromaStack", venue: "Monochromatic Repository", location: "Open System" },
-        { year: "2024", type: "16 mm", title: "Analog Trace", venue: "Anthology Film Archives", location: "New York" },
-        { year: "2023", type: "Publication", title: "Art from the End of the World", venue: "Editor — Roberto Jacoby", location: "International" },
-        { year: "Ongoing", type: "Ongoing", title: "IDONOTHAVETRADEMARK", venue: "Systemic Intervention", location: "Global" }
-    ];
-
     async function initSystem() {
-    const body = document.getElementById('data-body');
-    const response = await fetch('data.vcs');
-    const csvText = await response.text();
-    
-    const workData = csvText.trim().split('\n').slice(1).map(row => {
-        const cols = row.split(',');
-        return {
-            year: cols[0],
-            type: cols[1],
-            mode: cols[1],
-            entry: cols[2],
-            context: cols[3],
-            venue: cols[4],
-            location: cols[5]
-        };
-    });
+        const body = document.getElementById('data-body');
+        const response = await fetch('data.vcs');
+        const csvText = await response.text();
+        
+        const workData = csvText.trim().split('\n').slice(1).map(row => {
+            const cols = row.split(',');
+            return {
+                year: cols[0] || "",
+                type: cols[1] || "",
+                mode: cols[1] || "",
+                entry: cols[2] || "",
+                context: cols[3] || "",
+                venue: cols[4] || "",
+                location: cols[5] || ""
+            };
+        });
 
-    body.innerHTML = workData.map(item => {
-        const rawType = (item.type || "").toLowerCase();
-        let filterClass = rawType;
+        body.innerHTML = workData.map(item => {
+            const rawType = (item.type || "").toLowerCase();
+            let filterClass = rawType;
 
-        if (['solo', 'group', 'screening', 'performance'].includes(rawType)) filterClass = 'show';
-        else if (['film', 'video', '16 mm', 'sound', 'multi'].includes(rawType)) filterClass = 'time-based media';
-        else if (['press', 'publication', 'writing'].includes(rawType)) filterClass = 'writing';
+            // Map the filters
+            if (['solo', 'group', 'screening', 'performance'].includes(rawType)) filterClass = 'show';
+            else if (['film', 'video', '16 mm', 'sound', 'multi'].includes(rawType)) filterClass = 'time-based media';
+            else if (['press', 'publication', 'writing'].includes(rawType)) filterClass = 'writing';
+            else if (rawType === 'code' || rawType === 'collections' || rawType === 'founding') filterClass = rawType;
+            else filterClass = 'other'; // This puts anything else into the '+' category
 
-        return `
-            <tr class="data-row" data-filter="${filterClass}">
-                <td class="col-year">${item.year}</td>
-                <td class="col-mode">${item.mode}</td>
-                <td class="col-entry">${item.entry}</td>
-                <td class="col-context">${item.context}</td>
-                <td class="col-venue">${item.venue}</td>
-                <td class="col-location">${item.location || ''}</td>
-            </tr>
-        `;
-    }).join('');
+            const displayYear = item.year.toLowerCase() === 'ongoing' ? '' : item.year;
+            const displayMode = item.mode.toLowerCase() === 'ongoing' ? '' : item.mode;
 
-    const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
-    const nav = document.getElementById('nav-filters');
-    nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">all</button>';
-    categories.forEach(cat => {
-        nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
-    });
-} 
+            return `
+                <tr class="data-row" data-filter="${filterClass}">
+                    <td class="col-year">${displayYear}</td>
+                    <td class="col-mode">${displayMode}</td>
+                    <td class="col-main"><strong>${item.entry}</strong> ${item.context ? `— ${item.context}` : ''}</td>
+                    <td class="col-venue">${item.venue}</td>
+                    <td class="col-location">${item.location}</td>
+                </tr>
+            `;
+        }).join('');
+
+        const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
+        const nav = document.getElementById('nav-filters');
+        
+        categories.forEach(cat => {
+            nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+        });
+        // Adding the '+' button for everything else
+        nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
+    }
 
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             const label = btn.innerText.toLowerCase();
-            const isActive = label === type;
-            btn.classList.toggle('active', isActive);
+            const isOther = (type === 'other' && btn.innerText === '+');
+            btn.classList.toggle('active', label === type || isOther);
         });
         document.querySelectorAll('.data-row').forEach(row => {
             row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
@@ -138,11 +134,10 @@
     function toggleMode() { 
         document.body.classList.toggle('dark-mode');
         const nameDisplay = document.getElementById('main-name');
-        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
+        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "KARIN SCHNEIDER";
     }
 
     initSystem();
 </script>
-
 </body>
 </html>

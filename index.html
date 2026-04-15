@@ -19,7 +19,7 @@
         header { margin-bottom: 60px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
         .header-top { display: flex; justify-content: space-between; align-items: baseline; }
         .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
-        
+
         .controls { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
         .filter-btn, .mode-toggle { 
             border: 1px solid var(--text); background: none; padding: 4px 12px; 
@@ -89,12 +89,22 @@
             const rawType = (item.type || "").toLowerCase();
             let filterClass = rawType;
 
-            // Map the filters
-            if (['solo', 'group', 'screening', 'performance'].includes(rawType)) filterClass = 'show';
-            else if (['film', 'video', '16 mm', 'sound', 'multi'].includes(rawType)) filterClass = 'time-based media';
-            else if (['press', 'publication', 'writing'].includes(rawType)) filterClass = 'writing';
-            else if (rawType === 'code' || rawType === 'collections' || rawType === 'founding') filterClass = rawType;
-            else filterClass = 'other'; // This puts anything else into the '+' category
+            // Unify SHOWS (including 'other')
+            if (['solo', 'group', 'screening', 'performance', 'other'].includes(rawType)) {
+                filterClass = 'shows';
+            } 
+            // Aggregated Writing Filter
+            else if (['press', 'publication', 'publications', 'editorial', 'essay'].includes(rawType)) {
+                filterClass = 'writing';
+            }
+            // Time-based
+            else if (['film', 'video', '16 mm', 'sound', 'multi'].includes(rawType)) {
+                filterClass = 'time-based media';
+            }
+            // Miscellaneous items assigned to the + sign
+            else if (!['code', 'collections', 'founding'].includes(rawType)) {
+                filterClass = 'plus';
+            }
 
             const displayYear = item.year.toLowerCase() === 'ongoing' ? '' : item.year;
             const displayMode = item.mode.toLowerCase() === 'ongoing' ? '' : item.mode;
@@ -110,21 +120,20 @@
             `;
         }).join('');
 
-        const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
+        const categories = ["code", "collections", "time-based media", "founding", "shows", "writing"];
         const nav = document.getElementById('nav-filters');
         
         categories.forEach(cat => {
             nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
         });
-        // Adding the '+' button for everything else
-        nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
+        nav.innerHTML += `<button class="filter-btn" onclick="filter('plus')">+</button>`;
     }
 
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             const label = btn.innerText.toLowerCase();
-            const isOther = (type === 'other' && btn.innerText === '+');
-            btn.classList.toggle('active', label === type || isOther);
+            const isActive = (type === 'plus' && btn.innerText === '+') || label === type;
+            btn.classList.toggle('active', isActive);
         });
         document.querySelectorAll('.data-row').forEach(row => {
             row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);

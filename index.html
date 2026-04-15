@@ -72,66 +72,58 @@
         const response = await fetch('data.vcs');
         const csvText = await response.text();
         
-        const workData = csvText.trim().split('\n').slice(1).map(row => {
-            const cols = row.split(',');
+        // Split lines and remove the header
+        const lines = csvText.trim().split('\n').slice(1);
+        
+        const workData = lines.map(line => {
+            const cols = line.split(',');
             return {
-                year: cols[0] ? cols[0].trim() : "",
-                mode: cols[1] ? cols[1].trim() : "",
-                entry: cols[2] ? cols[2].trim() : "",
-                context: cols[3] ? cols[3].trim() : "",
-                venue: cols[4] ? cols[4].trim() : "",
-                location: cols[5] ? cols[5].trim() : ""
+                year: (cols[0] || "").trim(),
+                mode: (cols[1] || "").trim(),
+                entry: (cols[2] || "").trim(),
+                context: (cols[3] || "").trim(),
+                venue: (cols[4] || "").trim(),
+                location: (cols[5] || "").trim()
             };
         });
 
         body.innerHTML = workData.map(item => {
-            const rawType = item.mode.toLowerCase().trim();
-            let filterClass = rawType;
+            const rawType = item.mode.toLowerCase();
+            let filterClass = 'plus'; 
 
-            // --- LINE 100: MAPPING LOGIC ---
-            if (['solo', 'group', 'screening', 'performance', 'other'].includes(rawType)) {
-                filterClass = 'shows';
-            } 
-            else if (['press', 'publication', 'publications', 'editorial', 'essay', 'writing'].includes(rawType)) {
-                filterClass = 'writing';
-            }
-            else if (['film', 'video', '16 mm', 'sound', 'multi', '16 mm (ugp)', 'digital video', '4k'].includes(rawType)) {
-                filterClass = 'time-based media';
-            }
-            else if (rawType.includes('collect')) {
-                filterClass = 'collection';
-            }
-            else if (rawType.includes('founding')) {
-                filterClass = 'founding';
-            }
-            else if (rawType !== 'code') {
-                filterClass = 'plus';
-            }
+            // Grouping Logic
+            if (['solo', 'group', 'screening', 'performance', 'other'].includes(rawType)) filterClass = 'shows';
+            else if (['press', 'publication', 'publications', 'editorial', 'essay', 'writing'].includes(rawType)) filterClass = 'writing';
+            else if (['film', 'video', '16 mm', 'sound', 'multi', 'digital video', '4k'].includes(rawType)) filterClass = 'time-based media';
+            else if (rawType === 'code') filterClass = 'code';
+            else if (rawType.includes('collect')) filterClass = 'collection';
+            else if (rawType.includes('founding')) filterClass = 'founding';
 
-            // --- LINE 118: CLEAN VIEW LOGIC ---
-            // Checks if row is a Collection or Founding to trigger minimal display
-            const isLabelType = rawType.includes('collect') || rawType.includes('founding');
+            // VISUAL RULES
+            const isCollection = filterClass === 'collection' || filterClass === 'founding';
             
-            const displayYear = isLabelType ? '' : item.year;
-            const displayMode = isLabelType ? '' : item.mode;
+            // 1. Logic for Year/Mode visibility
+            const displayYear = (isCollection || item.year.toLowerCase().includes('ongoing')) ? '' : item.year;
+            const displayMode = isCollection ? '' : item.mode;
             
-            // --- LINE 126: SURGICAL CONTEXT FIX ---
-            // Method B: Hides "Permanent Collection" text from the screen
-            const displayContext = isLabelType ? '' : (item.context ? `— ${item.context}` : '');
+            // 2. Logic for Context (Collaborators): Always show unless it's a Museum Collection
+            const displayContext = isCollection ? '' : (item.context ? ` — ${item.context}` : '');
 
-            // --- LINE 130: TABLE ROW GENERATION ---
+            // 3. Logic for Location: Always show (No restrictions)
+            const displayLocation = item.location || "";
+
             return `
                 <tr class="data-row" data-filter="${filterClass}">
                     <td class="col-year">${displayYear}</td>
                     <td class="col-mode">${displayMode}</td>
-                    <td class="col-main"><strong>${item.entry}</strong> ${displayContext}</td>
+                    <td class="col-main"><strong>${item.entry}</strong>${displayContext}</td>
                     <td class="col-venue">${item.venue}</td>
-                    <td class="col-location">${item.location}</td>
+                    <td class="col-location">${displayLocation}</td>
                 </tr>
             `;
         }).join('');
 
-        // --- LINE 140: NAVIGATION MENU ---
+        // Navigation Menu
         const categories = ["code", "time-based media", "shows", "writing", "collection", "founding"];
         const nav = document.getElementById('nav-filters');
         nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">all</button>';
@@ -142,12 +134,10 @@
         nav.innerHTML += `<button class="filter-btn" onclick="filter('plus')">+</button>`;
     }
 
-    // --- LINE 155: FILTER FUNCTION ---
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             const label = btn.innerText.toLowerCase();
-            const isActive = (type === 'plus' && btn.innerText === '+') || label === type;
-            btn.classList.toggle('active', isActive);
+            btn.classList.toggle('active', (type === 'plus' ? btn.innerText === '+' : label === type));
         });
         document.querySelectorAll('.data-row').forEach(row => {
             const rowFilter = row.getAttribute('data-filter');
@@ -157,9 +147,15 @@
 
     function toggleMode() { 
         document.body.classList.toggle('dark-mode');
-        const nameDisplay = document.getElementById('main-name');
-        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "KARIN SCHNEIDER";
+        document.getElementById('main-name').innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "KARIN SCHNEIDER";
     }
 
     initSystem();
 </script>
+
+<footer>
+    #K.ari.n Schneider 2026 &copy; karinschneider.com
+</footer>
+
+</body>
+</html>

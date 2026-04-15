@@ -79,28 +79,56 @@
         { year: "Ongoing", type: "other", title: "IDONOTHAVETRADEMARK", detail: "Systemic Intervention", link: "#" }
     ];
 
-    function initSystem() {
+    async function initSystem() {
         const body = document.getElementById('data-body');
-        body.innerHTML = workData.map(item => {
-            const filterClass = (item.type === 'solo' || item.type === 'group') ? 'shows' : item.type;
-            return `
-            <tr class="data-row" data-filter="${filterClass}">
-                <td class="col-year">${item.year}</td>
-                <td class="col-type">${item.type === 'other' ? '+' : item.type}</td>
-                <td class="col-content">
-                    <strong>${item.title}</strong> — ${item.detail} 
-                    ${item.link !== '#' ? `<a href="${item.link}" target="_blank">↗</a>` : ''}
-                </td>
-            </tr>
-        `}).join('');
+        
+        try {
+            const response = await fetch('data.vcs');
+            if (!response.ok) throw new Error('File not found');
+            const csvText = await response.text();
+            
+            const rows = csvText.trim().split('\n').slice(1);
+            const workData = rows.map(row => {
+                const firstComma = row.indexOf(',');
+                const secondComma = row.indexOf(',', firstComma + 1);
+                const year = row.substring(0, firstComma).trim();
+                const type = row.substring(firstComma + 1, secondComma).trim();
+                const fullDesc = row.substring(secondComma + 1).trim();
+                const parts = fullDesc.split(';');
+                const title = parts[0].trim();
+                const detail = parts.slice(1).join(';').trim();
+                return { year, type, title, detail };
+            });
 
-        const categories = ["code", "collections", "film", "founding", "publications", "shows", "writing"];
-        const nav = document.getElementById('nav-filters');
-        categories.forEach(cat => {
-            nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
-        });
-        nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
-    }
+            body.innerHTML = workData.map(item => {
+                let filterClass = item.type.toLowerCase();
+                if (['solo', 'group', 'screening'].includes(filterClass)) filterClass = 'shows';
+                if (filterClass === 'time-based media') filterClass = 'film';
+                if (filterClass === '+') filterClass = 'other';
+
+                return `
+                <tr class="data-row" data-filter="${filterClass}">
+                    <td class="col-year">${item.year}</td>
+                    <td class="col-type">${item.type}</td>
+                    <td class="col-content">
+                        <strong>${item.title}</strong>${detail ? ` — ${detail}` : ''}
+                    </td>
+                </tr>
+                `;
+            }).join('');
+
+            const categories = ["code", "collections", "film", "founding", "publications", "shows", "writing"];
+            const nav = document.getElementById('nav-filters');
+            nav.innerHTML = `<button class="filter-btn active" onclick="filter('all')">All</button>`;
+            categories.forEach(cat => {
+                nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+            });
+            nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
+
+        } catch (e) {
+            body.innerHTML = "<tr><td colspan='3' style='padding:40px; opacity:0.5;'>System link error: Ensure data.vcs is present.</td></tr>";
+        }
+    } // This closes initSystem properly
 
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
@@ -116,8 +144,6 @@
     function toggleMode() { 
         document.body.classList.toggle('dark-mode');
         const nameDisplay = document.getElementById('main-name');
-        
-        // Logical flip: Inverted system = Protocol Name
         if (document.body.classList.contains('dark-mode')) {
             nameDisplay.innerText = "K.ari.n Schneider";
         } else {
@@ -127,6 +153,5 @@
 
     initSystem();
 </script>
-
 </body>
 </html>

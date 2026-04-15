@@ -124,90 +124,87 @@
             nameDisplay.innerText = "Karin Schneider";
         }
     }
+   <table id="data-table">
+        <tbody id="data-body">
+            </tbody>
+    </table>
 
-    initSystem();
-async function initSystem() {
-        const body = document.getElementById('data-body');
-        
-        try {
-            // Fetch the external data file
-            const response = await fetch('data.vcs'); 
-            if (!response.ok) throw new Error('File data.vcs not found');
+    <script>
+        async function initSystem() {
+            const body = document.getElementById('data-body');
             
-            const csvText = await response.text();
-            // Split by lines and skip the first header line
-            const rows = csvText.trim().split('\n').slice(1);
-            
-            const workData = rows.map(row => {
-                const firstComma = row.indexOf(',');
-                const secondComma = row.indexOf(',', firstComma + 1);
+            try {
+                // This connects to your data file
+                const response = await fetch('data.vcs'); 
+                if (!response.ok) throw new Error('File data.vcs not found');
                 
-                const year = row.substring(0, firstComma);
-                const type = row.substring(firstComma + 1, secondComma).trim();
-                const fullDescription = row.substring(secondComma + 1);
+                const csvText = await response.text();
+                const rows = csvText.trim().split('\n').slice(1);
                 
-                // Title is before the first semicolon, details after
-                const parts = fullDescription.split(';');
-                const title = parts[0].trim();
-                const detail = parts.slice(1).join(';').trim();
+                const workData = rows.map(row => {
+                    const firstComma = row.indexOf(',');
+                    const secondComma = row.indexOf(',', firstComma + 1);
+                    
+                    const year = row.substring(0, firstComma).trim();
+                    const type = row.substring(firstComma + 1, secondComma).trim();
+                    const fullDescription = row.substring(secondComma + 1).trim();
+                    
+                    const parts = fullDescription.split(';');
+                    const title = parts[0].trim();
+                    const detail = parts.slice(1).join(';').trim();
 
-                return { year, type, title, detail };
-            });
+                    return { year, type, title, detail };
+                });
 
-            // Build the table rows dynamically
-            body.innerHTML = workData.map(item => {
-                let filterClass = item.type.toLowerCase();
-                // Map the categories to your navigation buttons
-                if (['solo', 'group', 'screening'].includes(filterClass)) filterClass = 'shows';
-                if (filterClass === 'time-based media') filterClass = 'film';
-                if (filterClass === '+') filterClass = 'other';
+                body.innerHTML = workData.map(item => {
+                    let filterClass = item.type.toLowerCase();
+                    if (['solo', 'group', 'screening'].includes(filterClass)) filterClass = 'shows';
+                    if (filterClass === 'time-based media') filterClass = 'film';
+                    if (filterClass === '+') filterClass = 'other';
 
-                return `
-                <tr class="data-row" data-filter="${filterClass}">
-                    <td class="col-year">${item.year}</td>
-                    <td class="col-type">${item.type}</td>
-                    <td class="col-content">
-                        <strong>${item.title}</strong>${detail ? ` — ${detail}` : ''}
-                    </td>
-                </tr>
-                `;
-            }).join('');
+                    return `
+                    <tr class="data-row" data-filter="${filterClass}">
+                        <td class="col-year">${item.year}</td>
+                        <td class="col-type">${item.type}</td>
+                        <td class="col-content">
+                            <strong>${item.title}</strong>${detail ? ` — ${detail}` : ''}
+                        </td>
+                    </tr>
+                    `;
+                }).join('');
 
-            // Set up Navigation Filters
-            const categories = ["code", "collections", "film", "founding", "publications", "shows", "writing"];
-            const nav = document.getElementById('nav-filters');
-            nav.innerHTML = `<button class="filter-btn active" onclick="filter('all')">All</button>`;
-            categories.forEach(cat => {
-                nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
-            });
-            nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
+                const categories = ["code", "collections", "film", "founding", "publications", "shows", "writing"];
+                const nav = document.getElementById('nav-filters');
+                nav.innerHTML = `<button class="filter-btn active" onclick="filter('all')">All</button>`;
+                categories.forEach(cat => {
+                    nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+                });
+                nav.innerHTML += `<button class="filter-btn" onclick="filter('other')">+</button>`;
 
-        } catch (e) {
-            console.error(e);
-            body.innerHTML = "<tr><td colspan='3' style='padding:40px; opacity:0.5;'>System link error: Ensure 'data.vcs' is in the same folder as index.html.</td></tr>";
+            } catch (e) {
+                console.error(e);
+                body.innerHTML = "<tr><td colspan='3' style='padding:40px; opacity:0.5;'>System link error: Ensure 'data.vcs' is in the same folder.</td></tr>";
+            }
         }
-    }
 
-    function filter(type) {
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            const label = btn.innerText.toLowerCase();
-            const isActive = (type === 'other' && btn.innerText === '+') || label === type || (type === 'all' && label === 'all');
-            btn.classList.toggle('active', isActive);
-        });
-        document.querySelectorAll('.data-row').forEach(row => {
-            row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
-        });
-    }
+        function filter(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const label = btn.innerText.toLowerCase();
+                const isActive = (type === 'other' && btn.innerText === '+') || label === type || (type === 'all' && label === 'all');
+                btn.classList.toggle('active', isActive);
+            });
+            document.querySelectorAll('.data-row').forEach(row => {
+                row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
+            });
+        }
 
-    function toggleMode() { 
-        document.body.classList.toggle('dark-mode');
-        const nameDisplay = document.getElementById('main-name');
-        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
-    }
+        function toggleMode() { 
+            document.body.classList.toggle('dark-mode');
+            const nameDisplay = document.getElementById('main-name');
+            nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
+        }
 
-    // Initialize the page
-    initSystem();
-</script>
-
+        initSystem();
+    </script>
 </body>
 </html>

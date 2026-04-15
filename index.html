@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karin Schneider | System Index</title>
+    <style>
+        :root { --bg: #ffffff; --text: #000000; --accent: #666666; --border: #dddddd; }
+        body.dark-mode { --bg: #000000; --text: #ffffff; --accent: #999999; --border: #333333; }
+        
+        body { 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+            -webkit-font-smoothing: antialiased;
+            background-color: var(--bg); color: var(--text); margin: 40px; 
+            font-size: 13px; line-height: 1.5; letter-spacing: -0.01em; 
+            transition: background-color 0.2s, color 0.2s;
+        }
+
+        header { margin-bottom: 60px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
+        .header-top { display: flex; justify-content: space-between; align-items: baseline; }
+        
+        .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+        
+        .controls { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn, .mode-toggle { 
+            border: 1px solid var(--text); background: none; padding: 4px 12px; 
+            cursor: pointer; font-size: 11px; text-transform: uppercase; 
+            font-weight: 500; color: var(--text); transition: all 0.2s;
+        }
+        .filter-btn.active { background: var(--text); color: var(--bg); }
+
+        .matrix { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th { text-align: left; font-size: 10px; text-transform: uppercase; color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--text); }
+        td { padding: 12px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
+        
+        .col-year { width: 80px; font-weight: bold; }
+        .col-mode { width: 100px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
+        .col-entry { width: 25%; font-weight: bold; }
+        .col-venue { width: 25%; }
+        .col-location { width: 20%; color: var(--accent); }
+        
+        .hidden { display: none; }
+        a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--accent); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-top">
+        <div class="title" id="main-name">Karin Schneider</div>
+        <button class="mode-toggle" onclick="toggleMode()">Invert System</button>
+    </div>
+    <div class="controls" id="nav-filters">
+        <button class="filter-btn active" onclick="filter('all')">All</button>
+        </div>
+</header>
+
+<table class="matrix">
+    <thead>
+        <tr>
+            <th class="col-year">Year</th>
+            <th class="col-mode">Mode</th>
+            <th class="col-entry">Entry / Context</th>
+            <th class="col-venue">Venue</th>
+            <th class="col-location">Location</th>
+        </tr>
+    </thead>
+    <tbody id="data-body"></tbody>
+</table>
+
+<script>
+    // Note: I've updated the mapping logic below so you can use these natural types in your data.
+    const workData = [
+        { year: "2026", type: "Solo", title: "Gifts of Friendship", venue: "Museum of Art in Łódź", location: "Poland" },
+        { year: "2024", type: "Code", title: "ChromaStack", venue: "Monochromatic Repository", location: "Open System" },
+        { year: "2024", type: "16 mm", title: "Analog Trace", venue: "Anthology Film Archives", location: "New York" },
+        { year: "2023", type: "Publication", title: "Art from the End of the World", venue: "Editor — Roberto Jacoby", location: "International" },
+        { year: "Ongoing", type: "Ongoing", title: "IDONOTHAVETRADEMARK", venue: "Systemic Intervention", location: "Global" }
+    ];
+
+    function initSystem() {
+        const body = document.getElementById('data-body');
+        
+        body.innerHTML = workData.map(item => {
+            const rawType = item.type.toLowerCase();
+            let filterClass = rawType;
+
+            // Mapping Logic for Categories
+            if (['solo', 'group', 'screening'].includes(rawType)) filterClass = 'show';
+            if (['film', 'video', '16 mm'].includes(rawType)) filterClass = 'time-based media';
+            if (['press', 'publication', 'ongoing'].includes(rawType)) filterClass = 'writing';
+
+            return `
+            <tr class="data-row" data-filter="${filterClass}">
+                <td class="col-year">${item.year}</td>
+                <td class="col-mode">${item.type}</td>
+                <td class="col-entry">${item.title}</td>
+                <td class="col-venue">${item.venue || ''}</td>
+                <td class="col-location">${item.location || ''}</td>
+            </tr>
+        `}).join('');
+
+        // Updated Categories based on your requirements
+        const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
+        const nav = document.getElementById('nav-filters');
+        
+        categories.forEach(cat => {
+            nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+        });
+    }
+
+    function filter(type) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            const label = btn.innerText.toLowerCase();
+            const isActive = label === type;
+            btn.classList.toggle('active', isActive);
+        });
+        document.querySelectorAll('.data-row').forEach(row => {
+            row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
+        });
+    }
+
+    function toggleMode() { 
+        document.body.classList.toggle('dark-mode');
+        const nameDisplay = document.getElementById('main-name');
+        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
+    }
+
+    initSystem();
+</script>
+
+</body>
+</html>

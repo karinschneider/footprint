@@ -101,21 +101,19 @@
     else if (['film', 'video', '16 mm', 'sound', 'multi', '16 mm (ugp)', 'digital video', '4k'].includes(rawType)) {
         filterClass = 'time-based media';
     }
-    else if (rawType.includes('collection')) {
+    else if (rawType.includes('collect')) {
         filterClass = 'collection';
     }
     else if (rawType.includes('founding')) {
         filterClass = 'founding';
     }
-    // Anything else that isn't 'code' gets sent to the '+' button
     else if (rawType !== 'code') {
         filterClass = 'plus';
     }
 
-    // 2. Hide "Ongoing", "Collection", or "Founding" labels from the Year/Mode columns
     const isLabelType = rawType.includes('ongoing') || 
                         item.year.toLowerCase().includes('ongoing') || 
-                        rawType.includes('collection') || 
+                        rawType.includes('collect') || 
                         rawType.includes('founding');
     
     const displayYear = isLabelType ? '' : item.year;
@@ -132,7 +130,7 @@
     `;
 }).join('');
 
-        const categories = ["code", "collections", "time-based media", "founding", "shows", "writing"];
+        const categories = ["code", "time-based media", "shows", "writing", "collection", "founding"];
         const nav = document.getElementById('nav-filters');
         
         categories.forEach(cat => {

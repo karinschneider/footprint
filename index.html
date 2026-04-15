@@ -75,63 +75,66 @@
         const workData = csvText.trim().split('\n').slice(1).map(row => {
             const cols = row.split(',');
             return {
-                year: cols[0] || "",
-                type: cols[1] || "",
-                mode: cols[1] || "",
-                entry: cols[2] || "",
-                context: cols[3] || "",
-                venue: cols[4] || "",
-                location: cols[5] || ""
+                year: cols[0] ? cols[0].trim() : "",
+                mode: cols[1] ? cols[1].trim() : "",
+                entry: cols[2] ? cols[2].trim() : "",
+                context: cols[3] ? cols[3].trim() : "",
+                venue: cols[4] ? cols[4].trim() : "",
+                location: cols[5] ? cols[5].trim() : ""
             };
         });
 
-        
         body.innerHTML = workData.map(item => {
-    // Normalize the type for comparison
-    const rawType = (item.mode || "").toLowerCase().trim();
-    let filterClass = rawType;
+            const rawType = item.mode.toLowerCase().trim();
+            let filterClass = rawType;
 
-    // 1. Grouping for navigation
-    if (['solo', 'group', 'screening', 'performance', 'other'].includes(rawType)) {
-        filterClass = 'shows';
-    } 
-    else if (['press', 'publication', 'publications', 'editorial', 'essay', 'writing'].includes(rawType)) {
-        filterClass = 'writing';
-    }
-    else if (['film', 'video', '16 mm', 'sound', 'multi', '16 mm (ugp)', 'digital video', '4k'].includes(rawType)) {
-        filterClass = 'time-based media';
-    }
-    else if (rawType.includes('collect')) {
-        filterClass = 'collection';
-    }
-    else if (rawType.includes('founding')) {
-        filterClass = 'founding';
-    }
-    else if (rawType !== 'code') {
-        filterClass = 'plus';
-    }
+            // --- LINE 100: MAPPING LOGIC ---
+            if (['solo', 'group', 'screening', 'performance', 'other'].includes(rawType)) {
+                filterClass = 'shows';
+            } 
+            else if (['press', 'publication', 'publications', 'editorial', 'essay', 'writing'].includes(rawType)) {
+                filterClass = 'writing';
+            }
+            else if (['film', 'video', '16 mm', 'sound', 'multi', '16 mm (ugp)', 'digital video', '4k'].includes(rawType)) {
+                filterClass = 'time-based media';
+            }
+            else if (rawType.includes('collect')) {
+                filterClass = 'collection';
+            }
+            else if (rawType.includes('founding')) {
+                filterClass = 'founding';
+            }
+            else if (rawType !== 'code') {
+                filterClass = 'plus';
+            }
 
-    const isLabelType = rawType.includes('ongoing') || 
-                        item.year.toLowerCase().includes('ongoing') || 
-                        rawType.includes('collect') || 
-                        rawType.includes('founding');
-    
-    const displayYear = isLabelType ? '' : item.year;
-    const displayMode = isLabelType ? '' : item.mode;
+            // --- LINE 118: CLEAN VIEW LOGIC ---
+            // Checks if row is a Collection or Founding to trigger minimal display
+            const isLabelType = rawType.includes('collect') || rawType.includes('founding');
+            
+            const displayYear = isLabelType ? '' : item.year;
+            const displayMode = isLabelType ? '' : item.mode;
+            
+            // --- LINE 126: SURGICAL CONTEXT FIX ---
+            // Method B: Hides "Permanent Collection" text from the screen
+            const displayContext = isLabelType ? '' : (item.context ? `— ${item.context}` : '');
 
-    return `
-        <tr class="data-row" data-filter="${filterClass}">
-            <td class="col-year">${displayYear}</td>
-            <td class="col-mode">${displayMode}</td>
-            <td class="col-main"><strong>${item.entry}</strong> ${item.context ? `— ${item.context}` : ''}</td>
-            <td class="col-venue">${item.venue}</td>
-            <td class="col-location">${item.location}</td>
-        </tr>
-    `;
-}).join('');
+            // --- LINE 130: TABLE ROW GENERATION ---
+            return `
+                <tr class="data-row" data-filter="${filterClass}">
+                    <td class="col-year">${displayYear}</td>
+                    <td class="col-mode">${displayMode}</td>
+                    <td class="col-main"><strong>${item.entry}</strong> ${displayContext}</td>
+                    <td class="col-venue">${item.venue}</td>
+                    <td class="col-location">${item.location}</td>
+                </tr>
+            `;
+        }).join('');
 
+        // --- LINE 140: NAVIGATION MENU ---
         const categories = ["code", "time-based media", "shows", "writing", "collection", "founding"];
         const nav = document.getElementById('nav-filters');
+        nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">all</button>';
         
         categories.forEach(cat => {
             nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
@@ -139,6 +142,7 @@
         nav.innerHTML += `<button class="filter-btn" onclick="filter('plus')">+</button>`;
     }
 
+    // --- LINE 155: FILTER FUNCTION ---
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             const label = btn.innerText.toLowerCase();
@@ -146,7 +150,8 @@
             btn.classList.toggle('active', isActive);
         });
         document.querySelectorAll('.data-row').forEach(row => {
-            row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
+            const rowFilter = row.getAttribute('data-filter');
+            row.classList.toggle('hidden', type !== 'all' && rowFilter !== type);
         });
     }
 
@@ -158,5 +163,3 @@
 
     initSystem();
 </script>
-</body>
-</html>

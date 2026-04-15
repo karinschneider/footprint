@@ -34,7 +34,7 @@
         td { padding: 12px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
         
         .col-year { width: 80px; font-weight: bold; }
-        .col-mode { width: 100px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
+       .col-mode { width: 100px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
         .col-entry { width: 25%; font-weight: bold; }
         .col-venue { width: 25%; }
         .col-location { width: 20%; color: var(--accent); }
@@ -82,12 +82,13 @@
     const body = document.getElementById('data-body');
     const response = await fetch('data.vcs');
     const csvText = await response.text();
+    
     const workData = csvText.trim().split('\n').slice(1).map(row => {
         const cols = row.split(',');
         return {
             year: cols[0],
-            type: cols[1], // for the mapping logic
-            mode: cols[1], // for the display
+            type: cols[1],
+            mode: cols[1],
             entry: cols[2],
             context: cols[3],
             venue: cols[4],
@@ -99,11 +100,11 @@
         const rawType = (item.type || "").toLowerCase();
         let filterClass = rawType;
 
-            if (['solo', 'group', 'screening', 'performance'].includes(rawType)) filterClass = 'show';
-            if (['film', 'video', '16 mm','sound', 'multi'].includes(rawType)) filterClass = 'time-based media';
-            if (['press', 'publication', 'ongoing'].includes(rawType)) filterClass = 'writing';
+        if (['solo', 'group', 'screening', 'performance'].includes(rawType)) filterClass = 'show';
+        else if (['film', 'video', '16 mm', 'sound', 'multi'].includes(rawType)) filterClass = 'time-based media';
+        else if (['press', 'publication', 'writing'].includes(rawType)) filterClass = 'writing';
 
-            return `
+        return `
             <tr class="data-row" data-filter="${filterClass}">
                 <td class="col-year">${item.year}</td>
                 <td class="col-mode">${item.mode}</td>
@@ -112,15 +113,16 @@
                 <td class="col-venue">${item.venue}</td>
                 <td class="col-location">${item.location || ''}</td>
             </tr>
-        `}).join('');
-        
-        const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
-        const nav = document.getElementById('nav-filters');
-        
-        categories.forEach(cat => {
-            nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
-        });
-    }
+        `;
+    }).join('');
+
+    const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
+    const nav = document.getElementById('nav-filters');
+    nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">all</button>';
+    categories.forEach(cat => {
+        nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
+    });
+} 
 
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {

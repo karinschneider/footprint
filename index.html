@@ -86,9 +86,11 @@
             let filterClass = rawType;
 
             // Mapping Logic for Categories
-            if (['solo', 'group', 'screening'].includes(rawType)) filterClass = 'show';
-            if (['film', 'video', '16 mm'].includes(rawType)) filterClass = 'time-based media';
-            if (['press', 'publication', 'ongoing'].includes(rawType)) filterClass = 'writing';
+            if (['solo', 'group', 'screening', 'other', 'performance'].includes(rawType)) filterClass = 'show';
+            if (['film', 'video', '16 mm', 'sound', 'digital video'].includes(rawType)) filterClass = 'time-based media';
+            if (['press', 'publication', 'writing', 'essay', 'editorial'].includes(rawType)) filterClass = 'writing';
+            if (['collection'].includes(rawType)) filterClass = 'collections';
+            if (['founding'].includes(rawType)) filterClass = 'founding';
 
             return `
             <tr class="data-row" data-filter="${filterClass}">

@@ -18,8 +18,9 @@
 
         header { margin-bottom: 60px; border-bottom: 2px solid var(--text); padding-bottom: 20px; }
         .header-top { display: flex; justify-content: space-between; align-items: baseline; }
+        
         .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
-
+        
         .controls { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
         .filter-btn, .mode-toggle { 
             border: 1px solid var(--text); background: none; padding: 4px 12px; 
@@ -28,29 +29,30 @@
         }
         .filter-btn.active { background: var(--text); color: var(--bg); }
 
-        .matrix { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        .matrix { width: 100%; border-collapse: collapse; margin-top: 20px; }
         th { text-align: left; font-size: 10px; text-transform: uppercase; color: var(--accent); padding-bottom: 10px; border-bottom: 1px solid var(--text); }
         td { padding: 12px 0; border-bottom: 1px solid var(--border); vertical-align: top; }
         
-        .col-year { width: 60px; font-weight: bold; }
-        .col-mode { width: 110px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
-        .col-main { width: auto; }
-        .col-venue { width: 20%; }
-        .col-location { width: 15%; color: var(--accent); }
+        .col-year { width: 80px; font-weight: bold; }
+        .col-mode { width: 100px; color: var(--accent); font-size: 11px; text-transform: uppercase; }
+        .col-entry { width: 25%; font-weight: bold; }
+        .col-venue { width: 25%; }
+        .col-location { width: 20%; color: var(--accent); }
         
         .hidden { display: none; }
+        a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--accent); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="header-top">
-        <div id="main-name" class="title">KARIN SCHNEIDER</div>
+        <div class="title" id="main-name">Karin Schneider</div>
         <button class="mode-toggle" onclick="toggleMode()">Invert System</button>
     </div>
     <div class="controls" id="nav-filters">
-        <button class="filter-btn active" onclick="filter('all')">all</button>
-    </div>
+        <button class="filter-btn active" onclick="filter('all')">All</button>
+        </div>
 </header>
 
 <table class="matrix">
@@ -58,7 +60,7 @@
         <tr>
             <th class="col-year">Year</th>
             <th class="col-mode">Mode</th>
-            <th class="col-main">Entry / Context</th>
+            <th class="col-entry">Entry / Context</th>
             <th class="col-venue">Venue</th>
             <th class="col-location">Location</th>
         </tr>
@@ -67,97 +69,65 @@
 </table>
 
 <script>
-    async function initSystem() {
+    // Note: I've updated the mapping logic below so you can use these natural types in your data.
+    const workData = [
+        { year: "2026", type: "Solo", title: "Gifts of Friendship", venue: "Museum of Art in Łódź", location: "Poland" },
+        { year: "2024", type: "Code", title: "ChromaStack", venue: "Monochromatic Repository", location: "Open System" },
+        { year: "2024", type: "16 mm", title: "Analog Trace", venue: "Anthology Film Archives", location: "New York" },
+        { year: "2023", type: "Publication", title: "Art from the End of the World", venue: "Editor — Roberto Jacoby", location: "International" },
+        { year: "Ongoing", type: "Ongoing", title: "IDONOTHAVETRADEMARK", venue: "Systemic Intervention", location: "Global" }
+    ];
+
+    function initSystem() {
         const body = document.getElementById('data-body');
-        const response = await fetch('data.vcs');
-        const csvText = await response.text();
         
-        const lines = csvText.trim().split('\n').slice(1);
-        
-        const workData = lines.map(line => {
-    const cols = line.split(',');
-    return {
-        year: (cols[0] || "").trim(),
-        mode: (cols[1] || "").trim(),
-        entry: (cols[2] || "").trim(),
-        context: (cols[3] || "").trim(),
-        venue: (cols[4] || "").trim(),    // Strictly Column 5
-        location: (cols[5] || "").trim(), // Strictly Column 6
-        url: (cols[6] || "").trim()       // Strictly Column 7
-    };
-});
-
         body.innerHTML = workData.map(item => {
-            const rawType = item.mode.toLowerCase();
-            let filterClass = 'plus'; 
+            const rawType = item.type.toLowerCase();
+            let filterClass = rawType;
 
-            // Grouping Logic
-            if (['solo', 'group', 'screening', 'performance', 'other'].includes(rawType)) filterClass = 'shows';
-            else if (['press', 'publication', 'publications', 'editorial', 'essay', 'writing'].includes(rawType)) filterClass = 'writing';
-            else if (['film', 'video', '16 mm', 'sound', 'multi', 'digital video', '4k'].includes(rawType)) filterClass = 'time-based media';
-            else if (rawType === 'code') filterClass = 'code';
-            else if (rawType.includes('collect')) filterClass = 'collection';
-            else if (rawType.includes('founding')) filterClass = 'founding';
-
-            // VISUAL RULES
-            const isCollection = filterClass === 'collection' || filterClass === 'founding';
-            
-            // 1. Logic for Year/Mode visibility
-            const displayYear = (isCollection || item.year.toLowerCase().includes('ongoing')) ? '' : item.year;
-            const displayMode = isCollection ? '' : item.mode;
-            
-            // 2. Logic for Context (Collaborators): Always show unless it's a Museum Collection
-            const displayContext = isCollection ? '' : (item.context ? ` — ${item.context}` : '');
-
-            // 3. Logic for Location: Always show (No restrictions)
-            const displayLocation = item.location || "";
+            // Mapping Logic for Categories
+            if (['solo', 'group', 'screening'].includes(rawType)) filterClass = 'show';
+            if (['film', 'video', '16 mm'].includes(rawType)) filterClass = 'time-based media';
+            if (['press', 'publication', 'ongoing'].includes(rawType)) filterClass = 'writing';
 
             return `
-    <tr class="data-row" data-filter="${filterClass}">
-        <td class="col-year">${displayYear}</td>
-        <td class="col-mode">${displayMode}</td>
-        <td class="col-main">
-            <strong>${item.entry}</strong>${displayContext}
-            ${item.url ? `<a href="${item.url}" target="_blank" style="margin-left:8px; text-decoration:none; font-size:10px; color:var(--accent);">[↗]</a>` : ''}
-        </td>
-        <td class="col-venue">${item.venue}</td> 
-        <td class="col-location">${displayLocation}</td>
-    </tr>
-`;
+            <tr class="data-row" data-filter="${filterClass}">
+                <td class="col-year">${item.year}</td>
+                <td class="col-mode">${item.type}</td>
+                <td class="col-entry">${item.title}</td>
+                <td class="col-venue">${item.venue || ''}</td>
+                <td class="col-location">${item.location || ''}</td>
+            </tr>
+        `}).join('');
 
-        // Navigation Menu
-        const categories = ["code", "time-based media", "shows", "writing", "collection", "founding"];
+        // Updated Categories based on your requirements
+        const categories = ["code", "collections", "time-based media", "founding", "show", "writing"];
         const nav = document.getElementById('nav-filters');
-        nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">all</button>';
         
         categories.forEach(cat => {
             nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
         });
-        nav.innerHTML += `<button class="filter-btn" onclick="filter('plus')">+</button>`;
     }
 
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             const label = btn.innerText.toLowerCase();
-            btn.classList.toggle('active', (type === 'plus' ? btn.innerText === '+' : label === type));
+            const isActive = label === type;
+            btn.classList.toggle('active', isActive);
         });
         document.querySelectorAll('.data-row').forEach(row => {
-            const rowFilter = row.getAttribute('data-filter');
-            row.classList.toggle('hidden', type !== 'all' && rowFilter !== type);
+            row.classList.toggle('hidden', type !== 'all' && row.getAttribute('data-filter') !== type);
         });
     }
 
     function toggleMode() { 
         document.body.classList.toggle('dark-mode');
-        document.getElementById('main-name').innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "KARIN SCHNEIDER";
+        const nameDisplay = document.getElementById('main-name');
+        nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
     }
 
     initSystem();
 </script>
-
-<footer>
-    #K.ari.n Schneider 2026 &copy; karinschneider.com
-</footer>
 
 </body>
 </html>

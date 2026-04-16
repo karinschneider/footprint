@@ -70,15 +70,25 @@
 
 <script>
     // Note: I've updated the mapping logic below so you can use these natural types in your data.
-    const workData = [
-        { year: "2026", type: "Solo", title: "Gifts of Friendship", venue: "Museum of Art in Łódź", location: "Poland" },
-        { year: "2024", type: "Code", title: "ChromaStack", venue: "Monochromatic Repository", location: "Open System" },
-        { year: "2024", type: "16 mm", title: "Analog Trace", venue: "Anthology Film Archives", location: "New York" },
-        { year: "2023", type: "Publication", title: "Art from the End of the World", venue: "Editor — Roberto Jacoby", location: "International" },
-        { year: "Ongoing", type: "Ongoing", title: "IDONOTHAVETRADEMARK", venue: "Systemic Intervention", location: "Global" }
-    ];
+    async function loadVCS() {
+        const response = await fetch('data.vcs'); // This reaches out to your file
+        const text = await response.text();       // This reads it as plain text
+        
+        // This splits the text into rows and turns each row into a data object
+        const lines = text.trim().split('\n').slice(1); 
+        const workData = lines.map(line => {
+            const [year, mode, entry, context, venue, location] = line.split(',');
+            return {
+                year: year?.trim(),
+                type: mode?.trim().toLowerCase(),
+                title: entry?.trim() + (context ?  ` (${context.trim()})`  : ""),
+                venue: venue?.trim(),
+                location: location?.trim()
+            };
+        });
+        initSystem(workData); // Sends the parsed data to your existing display logic
 
-    function initSystem() {
+    function initSystem(workData) {
         const body = document.getElementById('data-body');
         
         body.innerHTML = workData.map(item => {
@@ -128,7 +138,7 @@
         nameDisplay.innerText = document.body.classList.contains('dark-mode') ? "K.ari.n Schneider" : "Karin Schneider";
     }
 
-    initSystem();
+    loadVCS();.
 </script>
 
 </body>

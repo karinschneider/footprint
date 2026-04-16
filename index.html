@@ -72,20 +72,20 @@
         const response = await fetch('data.vcs');
         const csvText = await response.text();
         
-        // Split lines and remove the header
         const lines = csvText.trim().split('\n').slice(1);
         
         const workData = lines.map(line => {
-            const cols = line.split(',');
-            return {
-                year: (cols[0] || "").trim(),
-                mode: (cols[1] || "").trim(),
-                entry: (cols[2] || "").trim(),
-                context: (cols[3] || "").trim(),
-                venue: (cols[4] || "").trim(),
-                location: (cols[5] || "").trim()
-            };
-        });
+    const cols = line.split(',');
+    return {
+        year: (cols[0] || "").trim(),
+        mode: (cols[1] || "").trim(),
+        entry: (cols[2] || "").trim(),
+        context: (cols[3] || "").trim(),
+        venue: (cols[4] || "").trim(),    // Strictly Column 5
+        location: (cols[5] || "").trim(), // Strictly Column 6
+        url: (cols[6] || "").trim()       // Strictly Column 7
+    };
+});
 
         body.innerHTML = workData.map(item => {
             const rawType = item.mode.toLowerCase();
@@ -113,15 +113,17 @@
             const displayLocation = item.location || "";
 
             return `
-                <tr class="data-row" data-filter="${filterClass}">
-                    <td class="col-year">${displayYear}</td>
-                    <td class="col-mode">${displayMode}</td>
-                    <td class="col-main"><strong>${item.entry}</strong>${displayContext}</td>
-                    <td class="col-venue">${item.venue}</td>
-                    <td class="col-location">${displayLocation}</td>
-                </tr>
-            `;
-        }).join('');
+    <tr class="data-row" data-filter="${filterClass}">
+        <td class="col-year">${displayYear}</td>
+        <td class="col-mode">${displayMode}</td>
+        <td class="col-main">
+            <strong>${item.entry}</strong>${displayContext}
+            ${item.url ? `<a href="${item.url}" target="_blank" style="margin-left:8px; text-decoration:none; font-size:10px; color:var(--accent);">[↗]</a>` : ''}
+        </td>
+        <td class="col-venue">${item.venue}</td> 
+        <td class="col-location">${displayLocation}</td>
+    </tr>
+`;
 
         // Navigation Menu
         const categories = ["code", "time-based media", "shows", "writing", "collection", "founding"];

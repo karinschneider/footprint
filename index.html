@@ -115,15 +115,18 @@
             const displayMode = isCollection ? '' : item.mode;
             const displayContext = isCollection ? '' : (item.context ? ` / ${item.context}` : '');
 
-            return `
-                <tr class="data-row" data-filter="${filterClass}">
-                    <td class="col-year">${displayYear}</td>
-                    <td class="col-mode">${displayMode}</td>
-                    <td class="col-main"><strong>${item.entry}</strong>${displayContext}</td>
-                    <td class="col-venue">${item.venue}</td>
-                    <td class="col-location">${item.location}</td>
-                </tr>
-            `;
+          return `
+              <tr class="data-row" data-filter="${filterClass}">
+              <td class="col-year">${displayYear}</td>
+              <td class="col-mode">${displayMode}</td>
+              <td class="col-main">
+              <strong>${item.entry}</strong>
+             <div style="font-weight: normal; color: var(--accent); margin-top: 4px;">${displayContext}</div>
+        </td>
+        <td class="col-venue">${item.venue}</td>
+        <td class="col-location">${item.location}</td>
+    </tr>
+`;
         }).join('');
 
         // Navigation Menu

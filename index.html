@@ -112,7 +112,7 @@
             const isCollection = filterClass === 'collection' || filterClass === 'founding';
             const displayYear = (isCollection || item.year.toLowerCase().includes('ongoing')) ? '' : item.year;
             const displayMode = isCollection ? '' : item.mode;
-            const displayContext = isCollection ? '' : (item.context ? ` — ${item.context}` : '');
+            const displayContext = isCollection ? '' : (item.context ? ` / ${item.context}` : '');
 
             return `
                 <tr class="data-row" data-filter="${filterClass}">

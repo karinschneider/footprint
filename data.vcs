@@ -6,7 +6,7 @@ Year,Mode,Entry,Context,Venue,Location
 2025,group,MAR 01,Exhibition,Casarão,Espírito Santo Brasil
 2025,essay,Ways of Seeing Critic,,SAIC,Chicago  USA
 2025,editorial,Power Line Publication,Co-editor with Lisa Sigal,Yale School of Art,USA
-2025,sound,Cactis,sound 3 minutes,,(●) Online
+2025,sound,Cactis,sound 3 minutes,,(○) Offline
 2025,press,Performance artística da cineasta Karin Schneider,Giuliano Miranda,ESHOJE,Espirito Santo  Brazil
 2025,other,Lecture to SAIC students,"org. by Aliza Shvarts and Daniel Quiles",SAIC,Chicago USA
 2024,group,Repara aí mana!,"curated by Renata Maués and Nando Lima",Casa das Onze Janelas,Belém  Brasil
@@ -23,7 +23,7 @@ Year,Mode,Entry,Context,Venue,Location
 2021,Press,Requiem for a Dream, Alex Kitnick on the avant-garde Museum Art Forum Print summer 2021,,New York USA
 2020,video,Dirty Mirror,video color 9:12 minutes,,,
 2020,publication,Neither Nor,,Goethe Institute,
-2020,publication,Notes from the Field,,Sentient>Art.Film,(●) Online
+2020,publication,Notes from the Field,,Sentient>Art.Film,(○) Offline
 2020,publication,Double Unbinding,Nicolás Guagnini: Theater of the Self,Mishkin Gallery Baruch CUNY,,New York, USA
 2020,screening,Short Film Corner,Film Festival,Cannes Film Festival,Cannes  France
 2019,publication,Tools Beside Brushes,Essay written about Alejandra Seeber’s work published by HatZe Cantz
@@ -101,8 +101,8 @@ Year,Mode,Entry,Context,Venue,Location
 2010,video,Pomerio,color 50 minutes,,,
 2010,writing,H10,Publication,Galería de Artes Visuales H10,,Valparaíso  Chile
 2010,other,9 Screens,,Museum of Modern Art,New York  USA
-2010,code,stalemate.co,collab with Charles Broskoski,Digital+Analogue,,
-2010,code,whitecircleonredandblue.com,collab with Damon Zucconi Digital+Analogue,,
+2010,code,stalemate.co,collab with Charles Broskoski,Digital+Analogue,(○) Offline
+2010,code,whitecircleonredandblue.com,collab with Damon Zucconi Digital+Analogue,(○) Offline
 2010,publication,Performa Catalog,,New York USA
 2009,video,Press Release,color sound 7:13 min,,,
 2009,video,XXX Macarena,color 30 min,,,
@@ -116,7 +116,8 @@ Year,Mode,Entry,Context,Venue,Location
 2009,press,The Space of the Work and the Place of the Object,Ken Johnson The New York Times January 27,New York USA
 2009,press,Art and Context II, III and IV,Julieta Gonzalez April Brochure,,USA
 2009,press,The Space of the Work and the Place of the Object,Caroline Busta Art Forum January,,USA
-2009,code,maniacviciouscircles.com,Web Project,Digital,(●) Online
+2009,code,maniacviciouscircles.com,Web Project,Digital,(○) Offline  
+2009,+,redmonochromes(maniacviciouscircles/https://www.youtube.com/@k.ari.n),Digital, YouTube (●) Online
 2008,video,Crisis in the Credit System,color sound 4:19 min,,,
 2008,publication,Igraliste Pomerio,,Muzej Moderne,Rijeka  Croatia
 2008,group,You & ME, Sometimes, curated by Sandra Antelo-Suárez,Lehman Maupin Gallery,New York USA

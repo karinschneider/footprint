@@ -42,11 +42,21 @@
         .hidden { display: none; }
         a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--accent); }
      
+        @media screen and (max-width: 768px) {
+        .matrix { 
+            display: block; 
+            overflow-x: auto; 
+            -webkit-overflow-scrolling: touch;
         }
+        .matrix td {
+            white-space: nowrap;
+            padding-right: 20px;
+        }
+    }
     </style>
 </head>
 <body>
-
+        
 <header>
     <div class="header-top">
         <div class="title" id="main-name">Karin Schneider</div>

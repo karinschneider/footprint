@@ -151,11 +151,11 @@ Year,Mode,Entry,Context,Venue,Location
 2007,group,Tropicalia,,Museum of Modern Art Rio de Janeiro,Rio de Janeiro/Brasil
 2007,press,Catching the Crest of the L.E.S. Wave,David Cohen,The New York Sun/November 8,New York/USA
 2007,press,Image Coming Soon,Roberta Smith,New York Times,New York/USA
-2007,press,In Art World Accessibility Is Not Top Priority, Alex Gartenfeld,Columbia Spectator,,New York/USA
+2007,press,In Art World Accessibility Is Not Top Priority, Alex Gartenfeld,Columbia Spectator,New York/USA
 2007,press,Tropicalismo 40 anos Depois,Vanessa Aragão,revistaparadoxo.com/September,Rio de Janeiro/Brazil
-2007,press,Projekt djecjeg igralita Pomerio u tradiciji lokalnog modernizma,,S. R. Grad Rijeka/April,, Rijeka/Croatia
-2007,Press,Umjetnica iz New Yorka projektirala igraliste Pomerio Jutarnjilist,Tea Cimas,Istria Coast/April 12,,Istria/Croatia 
-2007,Press,Djecje igraliste kao portret Rijeka,Elezovic N. NOVI,LIST April/12,,Rijeka/Croatia 
+2007,press,Projekt djecjeg igralita Pomerio u tradiciji lokalnog modernizma,,S. R. Grad Rijeka/April,Rijeka/Croatia
+2007,Press,Umjetnica iz New Yorka projektirala igraliste Pomerio Jutarnjilist,Tea Cimas,Istria Coast/April,Istria/Croatia 
+2007,Press,Djecje igraliste kao portret Rijeka,Elezovic N. NOVI,LIST/April,Rijeka/Croatia 
 2007,Press,Who Needs Objects?,Holland Cotter,New York Times,New York/USA
 2007,essay,A Few Notes on Collaboration, Bunch Alliance and Dissolve Public-Holiday Projects,Contemporary Art Center, Cincinnati USA
 2007,group,Drapeaux Gris, curated by Anthony Huberman and Paul Pfeiffer,Centre d’Arts Plastiques Contemporains (CAPC),Bordeaux France
@@ -182,12 +182,12 @@ Year,Mode,Entry,Context,Venue,Location
 2005,group,Tropicalia,Curated by Carlos Basualo,Bronx Museum,New York/USA
 2005,group,Tropicalia,Curated by Carlos Basualo,Pinacoteca,São Paulo/Brasil
 2005,performance,Sabotage in Part I, sound by Jutta koether,Orchard,New York/USA
-2005,Press,Studio Voice,Fumihiro Nonomura,Magazine/March,,Japan 
+2005,Press,Studio Voice,Fumihiro Nonomura,Magazine/March,Tokyo/Japan 
 2004,publication,A New Domestic Landscape?,,La Industry,Caracas/Venezuela
 2004,Press,Karin Schneider,Victoria Verlichak, Art Nexus number 54 volume 3,New York/USA
-2004,Press,El Paraíso Perdido, María Gainza,Página/12 suplemento Radar May 30,Buenos Aires/Argentina, 
-2004,Press,El Abordaje más cruel,Lujan Cambariere Interview Página/12 M2 May 22,Buenos Aires/Argentina 
-2004,Press,Los Latinos,Luis Camnitzer Art Nexus number 52 volume 3,,USA
+2004,Press,El Paraíso Perdido, María Gainza,Página 12 suplemento Radar/May,Buenos Aires/Argentina
+2004,Press,El Abordaje más cruel,Lujan Cambariere Interview,Página 12/May,Buenos Aires/Argentina 
+2004,Press,Los Latinos,Luis Camnitzer,Art Nexus number 52 volume 3,,USA
 2004,Press,Cinco Artistas con aire de Familia, Francisco Ali Brouchoud,Página 12 February 24,Buenos Aires/Argentina 
 2004,Press,The Big Nothing,Benett Simpson,Institute of Contemporary Art (ICA) University of Pennsylvania,Philadelphia/USA
 2004,Press,Bromas sobre la Modernidad, Ana María Battistozzi,Clarín July 19,Buenos Aires/Argentina 
@@ -195,7 +195,7 @@ Year,Mode,Entry,Context,Venue,Location
 2004,group,Formas de Pensar,Curated by Laura Buccellato,MALBA,Buenos Aires/Argentina
 2004,solo,A New Domestic Landscape?,clothing by Mercer Guagnini and Soledad Erdocia,Dabbah Torrejón,Buenos Aires/Argentina
 2003,publication,Quasi Schizophrenia,text by Karin Schneider and N. Guagnini,Parkett magazine,Zurich/Switzerland
-2003,16 mm,(UGP) Moodloop@BA 16mm color 4min,,
+2003,16 mm,(UGP) Moodloop@BA,16mm color 4min,,
 2003,16 mm,(UGP) Axiom of Choice,16mm color 5min Portrait of Jonas and Sebastian Mekas,,
 2002,16 mm,(UGP) Twins,16mm color sound 6min collab with Jeff Preiss,,,
 2003,group,The L Factor,,Exit Art,New York/USA
@@ -223,9 +223,9 @@ Year,Mode,Entry,Context,Venue,Location
 2000,16 mm,(UGP) Yin Yang,16mm film installation color sound loop,,
 2000,publication,Seja Marginal Seja Herói,Article,Ramona magazine,Buenos Aires/Argentina
 2000,group,Demonstration Room: Ideal House,,Museo Alejandro Otero,Caracas/Venezuela
-2000,publication, Seja Marginal Seja Herói,Article Ramona magazine/issue 4,Buenos Aires/Argentina
+2000,publication, Seja Marginal Seja Herói,Article,Ramona magazine/issue 4,Buenos Aires/Argentina
 2000,publication,Luminic Suprematism, Article, TRANS magazine/issue 8, New York/USA
-1999,16 mm,(UGP) Heaven’s Hell/Hell’s Heaven 16mm film B&W sound 20m,,,
+1999,16 mm,(UGP) Heaven’s Hell/Hell’s Heaven (by Tunga),16mm film B&W sound 20m,,,
 1999,group,Faucett,,Exit Art,New York/USA
 1999,16 mm,(UGP) A vida de Infra Tunga,16mm film B&W 11min collab with Tunga,,
 1999,group,PARADISE,curated by Pip Day,Exit Art,New York/USA
@@ -240,7 +240,7 @@ Year,Mode,Entry,Context,Venue,Location
 1998,video,Peru-Florida,HI8 video color sound 3 min,,,
 1998,video,Baba Antropofágica, Hi8 video color sound 9 minutes,,,
 1998,group,MA Exhibition,,NYU 80 Washington Sq E,New York/USA
-1988,Publication, Phantom Limb / The baroque-concrete or the trance of form Cláudio Dacosta, Luisa Strina Gallery & Museum of Modern Art,, São Paulo/Brasil 
+1988,Publication, Phantom Limb / The baroque-concrete or the trance of form,Cláudio Dacosta, Luisa Strina Gallery & Museum of Modern Art,, São Paulo/Brasil 
 1988,Press,Membro Fantasma mostra que tudo é verdade na Arte,Celso Fioravante,Folha de São Paulo,São Paulo/Brasil
 1988,Press,Projeto reúne traços do concretismo criado no Brasil Argentina e Polônia,Cláudia Thevenet,O Globo,Rio de Janeiro/Brasil
 1988,Press,Obras da Organicus vêm da terra,Angélica de Morais,Estado de SP/Caderno 2,São Paulo/Brasil 

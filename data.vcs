@@ -1,5 +1,5 @@
 Year,Mode,Entry,Context,Venue,Location
-2026, Visiting critic, Painting/Printmaking,,Yale School of Arts,New Haven Connecticut
+2026,Critic,Painting/Printmaking Department,,Yale School of Arts,New Haven Connecticut
 2026,group,Gifts of Friendship,,Muzeum Sztuki,Łódź Poland
 2026,code,chromastack.com,Digital+Analogue,,(●) Online
 2026/20,code,Wrappings.com,Painting System; Digital+Analogue,,(●) Online
@@ -23,7 +23,7 @@ Year,Mode,Entry,Context,Venue,Location
 2022,video,Ñande Róga,collab with Eduardo Alfonso Angelica Arbelaez María Carri Rachel Eboh Laura Hakel Kyle Herrington Guy Weltchek",CCS Bard College and ISLAA,USA
 2022/21,other,Visiting Faculty,,CCS Bard Center for Curatorial Studies, New York USA
 2021,video,Milchhof,Collab with Verena Kathrein; 4K video color silent 30 minutes,,,
-2021,Press,Requiem for a Dream, Alex Kitnick on the avant-garde Museum Art Forum Print summer 2021,,New York USA
+2021,press,Requiem for a Dream, Alex Kitnick on the avant-garde Museum Art Forum Print summer 2021,,New York USA
 2020,video,Dirty Mirror,video color 9:12 minutes,,,
 2020,publication,Neither Nor,,Goethe Institute,
 2020,publication,Notes from the Field,,Sentient>Art.Film,(○) Offline
@@ -35,16 +35,16 @@ Year,Mode,Entry,Context,Venue,Location
 2019,press,Karin Schneider “The Milchhof Diagram”,Maria Inés Plaza Lazo Mousse Magazine
 2018,publication,Joan Jonas by Karin Schneider,edited by Julienne Lorz and Andrea Lissoni, Hirmer 
 2018,solo,Milchhof Diagram,curated by Milan Ther, Kunstverein Nürnberg,Nürnberg  Germany
-2018,Group,Bispando,,Museu Bispo do Rosário,Rio de Janeiro  Brasil
+2018,group,Bispando,,Museu Bispo do Rosário,Rio de Janeiro  Brasil
 2018,solo,(H)oldings,Art Fair,Armory Focus,New York  USA
 2018,group,A New Job to unwork at,"curated by Andrew Kachel and Clara López Menéndez",Participant Inc.,New York  USA
 2018,press,A New job to unwork at,Julia Bryan-Wilson 4Columns,,New York  USA
 2017,publication,Chart / Finesse,edited by Leah Pires,Wallach Gallery,,New York  USA
 2017,publication,In relation to a Spectator,,Kestner Gesellschaft,Hannover  German 
 2017,publication,Symmetries,edited by Sylvia Gorelick,Dominique Lévy Gallery,,New York  USA
-2017,Press,Inside Job: In the Tradition of Institutional Critique Artists Are Throwing Wrenches Into the Art World’s Works, Andrew Russeth Art News January,,New York USA
-2017,Press,Finesse, The New Yorker, March,,New York USA
-2017,Other,Bispando,,Solo Shows, Sāo Paulo Brazil
+2017,press,Inside Job: In the Tradition of Institutional Critique Artists Are Throwing Wrenches Into the Art World’s Works, Andrew Russeth Art News January,,New York USA
+2017,press,Finesse, The New Yorker, March,,New York USA
+2017,other,Bispando,,Solo Shows, Sāo Paulo Brazil
 2017,group,In Relation to a Spectator,organized by Christina Végh and Elmas Senol,Kestner Gesellschaft,,Hannover  German 
 2017,group,A boat is a floating piece of space,curated by Piper Marshall,Alfonso Artiaco,Naples  Italy
 2017,group,Finesse,curated by Leah Pires,Wallach Art Gallery,New York  USA
@@ -75,7 +75,7 @@ Year,Mode,Entry,Context,Venue,Location
 2015,+,Jeff Preiss and Union Gaucha Productions, YouTube 
 2015,other,Union Gaucha Productions (UGP),Survey Exhibition,Artists Space,New York  USA
 2015,solo,SD@PRH,,Parapet Real Humans,Saint Louis  USA
-2015,Publication,Collected by Thea Westreich Wagner and Ethan Wagner, Yale University Press,,
+2015,publication,Collected by Thea Westreich Wagner and Ethan Wagner, Yale University Press,,
 2015,group,MOMMY,curated by Hope Svenson and Robert Snowden,Yale Union,Portland  USA
 2014,publication,Transitional Line,artist book,Pau Wau Publications,New York  USA
 2014,performance,Transitional Line,Performance,Swiss Institute,New York  USA
@@ -126,7 +126,7 @@ Year,Mode,Entry,Context,Venue,Location
 2009,press,The Space of the Work and the Place of the Object,Ken Johnson The New York Times January 27,New York USA
 2009,press,Art and Context II, III and IV,Julieta Gonzalez April Brochure,,USA
 2009,press,The Space of the Work and the Place of the Object,Caroline Busta Art Forum January,,USA
-2009,Writing,The (non) Logic of the Cure, Wir Verbessern Ihre Arbeit, Instituto Divorciado, Galeria Sandra Burgel
+2009,essay,The (non) Logic of the Cure, Wir Verbessern Ihre Arbeit, Instituto Divorciado, Galeria Sandra Burgel
 2009,code,maniacviciouscircles.com,Web Project,Digital,(○) Offline  
 2009,+,redmonochromes maniacviciouscircles,https://www.youtube.com/@k.ari.n,YouTube, (●) Online
 2008,+,Crisis in the Credit System,https://www.youtube.com/watch?v=OYzsDleIcTM     color sound 4:19min,YouTube,(●) Online
@@ -139,8 +139,8 @@ Year,Mode,Entry,Context,Venue,Location
 2008,essay,Karin Schneider & Mattin at Transmission Glasgow, Benedict Seymour on 26/04/2008,,Glasgow 
 2008,press,Labirint,Egy játszótér IGEN városban Somogyi hajnalka 2008-10-27,,Croatia 
 2018,Group,Chance Encounters,Press Release, Ludlow 38, New York USA
-2018,Writing,Visual Texts, Point of Contact, Syracuse University,Syracuse New York
-2008,writting,In what ways have artists academics and cultural institutions responded to the U.S.-led invasion and occupation of Iraq?,Questionnaire,October 123,New York USA
+2018,essay,Visual Texts, Point of Contact, Syracuse University,Syracuse New York
+2008,publication,In what ways have artists academics and cultural institutions responded to the U.S.-led invasion and occupation of Iraq?,Questionnaire,October 123,New York USA
 2008,performance,Prison for Objects(Melanie Gilligan),text by Melanie Gilligan,Transmission Gallery,Glasgow  Scotland
 2007,solo,Image Coming Soon, with Sarina Basta Amy Granat Melanie Gilligan Eileen Quinlan Judy Werthein,Orchard,New York  USA
 2007,16 mm,Credits,16 mm film B&W 6 min collab with Sarina Basta,,
@@ -149,14 +149,14 @@ Year,Mode,Entry,Context,Venue,Location
 2007,screening,e-flux Video Rental,,Centre Culturel Suisse,Paris  France
 2007,group,Tropicalia,,Museum of Modern Art Rio de Janeiro,Rio de Janeiro Brasil
 2007,press,Catching the Crest of the L.E.S. Wave,David Cohen November 8,,New York USA
-2007,Press,Image Coming Soon,Roberta Smith,New York Times,,New York USA
-2007,Press,In Art World Accessibility Is Not Top Priority, Alex Gartenfeld,Columbia Spectator,,New York USA
-2007,Press,Tropicalismo 40 anos Depois,Vanessa Aragão revistaparadoxo.com September 5,,Rio de Janeiro Brazil
-2007,Press,Projekt djecjeg igralita Pomerio u tradiciji lokalnog modernizma, S. R. Grad Rijeka April,, Rijeka Croatia
+2007,press,Image Coming Soon,Roberta Smith,New York Times,,New York USA
+2007,press,In Art World Accessibility Is Not Top Priority, Alex Gartenfeld,Columbia Spectator,,New York USA
+2007,press,Tropicalismo 40 anos Depois,Vanessa Aragão revistaparadoxo.com September 5,,Rio de Janeiro Brazil
+2007,press,Projekt djecjeg igralita Pomerio u tradiciji lokalnog modernizma, S. R. Grad Rijeka April,, Rijeka Croatia
 2007,Press,Umjetnica iz New Yorka projektirala igraliste Pomerio Jutarnjilist,Tea Cimas Istria Coast April 12,,Istria,Croatia 
 2007,Press,Djecje igraliste kao portret Rijeka by Elezovic N. NOVI LIST April 12,,Rijeka, Croatia 
 2007,Press,Who Needs Objects?,Holland Cotter,New York Times,,New York USA
-2007,writting,A Few Notes on Collaboration, Bunch Alliance and Dissolve Public-Holiday Projects,Contemporary Art Center, Cincinnati USA
+2007,essay,A Few Notes on Collaboration, Bunch Alliance and Dissolve Public-Holiday Projects,Contemporary Art Center, Cincinnati USA
 2007,group,Drapeaux Gris, Centre d’Arts Plastiques Contemporains (CAPC) curated by Anthony Huberman and Paul Pfeiffer,,Bordeaux France
 2006,video,two or three Things you Should…,color 3 min,,,
 2006,publication,INVENTARIO,,Museo de Art e Direito Contemporáneo,,San José  Costa Rica
@@ -192,7 +192,7 @@ Year,Mode,Entry,Context,Venue,Location
 2004,Press,Bromas sobre la Modernidad, Ana María Battistozzi Clarín July 19,,Buenos Aires Argentina 
 2004,group,Plane and Elevation,curated by Jose Gabriel Fernadez,Art in General,New York USA
 2004,group,Formas de Pensar,curated by Laura Buccellato,MALBA,Buenos Aires Argentina
-2004,Solo,A New Domestic Landscape?,clothing by Mercer Guagnini and Soledad Erdocia,Dabbah Torrejón,Buenos Aires  Argentina
+2004,solo,A New Domestic Landscape?,clothing by Mercer Guagnini and Soledad Erdocia,Dabbah Torrejón,Buenos Aires  Argentina
 2003,publication,Quasi Schizophrenia,text by Karin Schneider and N. Guagnini,Parkett magazine,,Zurich  Switzerland
 2003,16 mm,(UGP) Moodloop@BA 16mm color 4min,,
 2003,16 mm,(UGP) Axiom of Choice,16mm color 5min Portrait of Jonas and Sebastian Mekas,,
@@ -222,8 +222,8 @@ Year,Mode,Entry,Context,Venue,Location
 2000,16 mm,(UGP) Yin Yang,16mm film installation color sound loop,,
 2000,publication,Seja Marginal Seja Herói,Article,Ramona magazine,Buenos Aires  Argentina
 2000,group,Demonstration Room: Ideal House,,Museo Alejandro Otero,Caracas  Venezuela
-2000,writing, Seja Marginal Seja Herói,Article Ramona magazine issue 4,Buenos Aires Argentina
-2000,writting,Luminic Suprematism, Article, TRANS magazine issue 8, New York USA
+2000,publication, Seja Marginal Seja Herói,Article Ramona magazine issue 4,Buenos Aires Argentina
+2000,publication,Luminic Suprematism, Article, TRANS magazine issue 8, New York USA
 1999,16 mm,(UGP) Heaven’s Hell/Hell’s Heaven 16mm film B&W sound 20m,,,
 1999,group,Faucett,,Exit Art,New York USA
 1999,16 mm,(UGP) A vida de Infra Tunga,16mm film B&W 11min collab with Tunga,,
@@ -244,7 +244,7 @@ Year,Mode,Entry,Context,Venue,Location
 1988,Press,Projeto reúne traços do concretismo criado no Brasil Argentina e Polônia,Cláudia Thevenet O Globo,, Rio de Janeiro, Brasil
 1988,Press,Obras da Organicus vêm da terra,Angélica de Morais Estado de SP (Caderno 2),,São Paulo Brasil 
 1988,Press,Natureza Inspira Artistas,Maria Hirszman Jornal da Tarde,,São Paulo  Brasil
-1988, Publication, Dicionário de Artes Plásticas do Rio Grande do Sul,Décio Presser,,Porto Alegre Brasil
+1988,Publication, Dicionário de Artes Plásticas do Rio Grande do Sul,Décio Presser,,Porto Alegre Brasil
 1997/98,16 mm,(UGP) Phantom Limb,16 mm B&W 22min Fiction Doc filmed in Brazil Argentina and Poland,,
 1997,video,Experimental Black 2 Hi8 video sound color 4 minutes,,,
 1997,video,Eyes,Hi8 video color 3 minutes,,,

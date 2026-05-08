@@ -143,7 +143,7 @@
     function filter(type) {
         document.querySelectorAll('.filter-btn').forEach(btn => {
             const label = btn.innerText.toLowerCase();
-            btn.classList.toggle('active', (type === 'plus' ? btn.innerText === '+' : label === type));
+            btn.classList.toggle('active', (type === 'all' && label === 'selected') || label === type || (type === 'plus' && btn.innerText === '+'));
         });
         document.querySelectorAll('.data-row').forEach(row => {
             const rowFilter = row.getAttribute('data-filter');

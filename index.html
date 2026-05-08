@@ -133,7 +133,7 @@
         // Navigation Menu
         const categories = ["code", "time-based media", "shows", "writing", "collection", "founding"];
         const nav = document.getElementById('nav-filters');
-        nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">all</button>';
+        nav.innerHTML = '<button class="filter-btn active" onclick="filter(\'all\')">selected</button>';
         categories.forEach(cat => {
             nav.innerHTML += `<button class="filter-btn" onclick="filter('${cat}')">${cat}</button>`;
         });

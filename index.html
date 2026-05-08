@@ -111,7 +111,7 @@
             }
 
             // Visual Rules
-            const isCollection = filterClass === 'collection' || filterClass === 'founding';
+            const isCollection = filterClass === 'collection';
             const displayYear = (isCollection || item.year.toLowerCase().includes('ongoing')) ? '' : item.year;
             const displayMode = isCollection ? '' : item.mode;
             const displayContext = isCollection ? '' : (item.context ? ` / ${item.context}` : '');

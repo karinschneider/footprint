@@ -347,7 +347,12 @@
 
     let currentFilter = 'ALL';
 
-    function toggleMode() { document.body.classList.toggle('dark-mode'); }
+    function toggleMode() { 
+        document.body.classList.toggle('dark-mode'); 
+        const isDark = document.body.classList.contains('dark-mode');
+        const brand = document.getElementById('main-name');
+        brand.innerText = isDark ? "K.ARI.N SCHNEIDER" : "KARIN SCHNEIDER";
+    }
 
     function secretHandshake() {
         const entry = prompt("Enter Studio Access Code:");

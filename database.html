@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>K.ARI.N SCHNEIDER | MEMBRANE SYSTEM</title>
+    <!-- Professional Video Engine: Video.js -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
     <style>
         :root { 
             --bg: #ffffff; 
@@ -53,7 +55,8 @@
         body.admin-active .admin-only-inline { display: inline-block; }
         body.admin-active .admin-only-cell { display: table-cell; }
 
-        .overlay { 
+        /* COMPACT REGISTRATION OVERLAY */
+        #reg-section { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.9); z-index: 5000;
             display: none; justify-content: center; align-items: center;
@@ -61,7 +64,7 @@
         }
         
         .form-container { 
-            width: 90%; max-width: 580px; padding: 25px; 
+            width: 90%; max-width: 650px; padding: 25px; 
             border: 1px solid var(--text); background: var(--bg); 
             position: relative;
         }
@@ -87,9 +90,7 @@
             font-size: 24px; color: var(--text); opacity: 0.5; transition: 0.2s;
         }
 
-        #access-gate-container { max-width: 400px; text-align: center; }
-        .gate-status { font-size: 10px; color: var(--accent); margin-bottom: 20px; letter-spacing: 2px; }
-
+        /* THE MATRIX */
         .matrix { width: 100%; border-collapse: collapse; table-layout: fixed; }
         th { text-align: left; font-size: 9px; text-transform: uppercase; color: var(--accent); padding-bottom: 12px; border-bottom: 1px solid var(--text); letter-spacing: 1px; }
         td { padding: 20px 0; border-bottom: 1px solid var(--border); vertical-align: top; cursor: pointer; position: relative; }
@@ -100,11 +101,12 @@
         .col-status { width: 60px; text-align: center; }
         .col-actions { width: 80px; text-align: right; display: none; }
 
+        /* Chromatic Status Protocol - Strict Visual Circle */
         .status-button {
             width: 14px !important; height: 14px !important; border-radius: 50% !important; 
             display: inline-block !important; cursor: pointer; border: none !important;
             padding: 0 !important; vertical-align: middle; 
-            text-indent: -9999px; overflow: hidden;
+            text-indent: -9999px; overflow: hidden; /* Force silence of words */
             transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
@@ -117,6 +119,7 @@
         .action-btn:hover { color: var(--text); opacity: 1; }
         .del-btn:hover { color: #ff0000; }
 
+        /* THE AGENT */
         #moving-agent {
             position: absolute; left: 15px; width: 12px; height: 12px; background-color: var(--text); border-radius: 50%;
             transition: top 0.4s cubic-bezier(0.16, 1, 0.3, 1); z-index: 5500; display: none;
@@ -128,17 +131,14 @@
             100% { transform: scale(1); opacity: 0; }
         }
 
+        /* VIEWING ROOM */
         #viewing-room {
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: var(--view-bg); z-index: 6000; display: none;
             justify-content: center; align-items: center; transition: background 0.3s;
         }
         #media-container { width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; position: relative; padding: 80px; box-sizing: border-box; }
-        
-        #media-container video, #media-container img, #media-container iframe { 
-            max-width: 100%; max-height: 100%; border: none; object-fit: contain;
-            display: block; background: #000; z-index: 6100;
-        }
+        .video-js { width: 100% !important; height: 100% !important; max-width: 100%; max-height: 100%; }
         
         .view-controls { position: absolute; top: 30px; right: 30px; z-index: 7000; display: flex; gap: 10px; align-items: center; }
         .bg-toggle { width: 18px; height: 18px; border: 1px solid rgba(128,128,128,0.5); cursor: pointer; transition: 0.2s; }
@@ -181,7 +181,7 @@
 </div>
 
 <!-- REGISTRATION OVERLAY -->
-<div id="reg-section" class="overlay" onclick="handleBgClick(event, 'reg-section')">
+<div id="reg-section" onclick="handleBgClick(event)">
     <div class="form-container" onclick="event.stopPropagation()">
         <div class="form-close" onclick="toggleReg()">×</div>
         <h2 id="form-title" style="font-size: 11px; text-transform: uppercase; margin-bottom: 15px; letter-spacing: 2px;">Register New Work</h2>
@@ -244,11 +244,6 @@
             </div>
 
             <div style="grid-column: span 2;">
-                <label>Access Code (Temporary Password)</label>
-                <input type="text" id="accessCode" placeholder="Send this via email to requester">
-            </div>
-
-            <div style="grid-column: span 2;">
                 <label>Upload Preview (Auto-populates filename)</label>
                 <input type="file" id="mediaFile" style="border:none; padding:0;" onchange="handleFileSelection(this)">
             </div>
@@ -256,20 +251,6 @@
             <button type="submit" id="submit-btn" class="btn" style="grid-column: span 2; margin-top: 10px; padding: 10px; font-size: 11px;">COMMIT TO ARCHIVE</button>
             <button type="button" class="btn" onclick="toggleReg()" style="grid-column: span 2; border:none; opacity:0.4;">CANCEL</button>
         </form>
-    </div>
-</div>
-
-<!-- ACCESS CODE VALIDATION GATE -->
-<div id="access-gate" class="overlay" onclick="handleBgClick(event, 'access-gate')">
-    <div id="access-gate-container" class="form-container" onclick="event.stopPropagation()">
-        <div class="form-close" onclick="closeGate()">×</div>
-        <div class="gate-status">SOVEREIGN_AUTHENTICATION_REQUIRED</div>
-        <h2 id="gate-title" style="font-size: 11px; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 2px;">Enter Access Code</h2>
-        
-        <input type="password" id="gate-input" placeholder="••••••••" style="text-align: center; font-size: 18px; margin-bottom: 20px; letter-spacing: 4px;">
-        
-        <button class="btn" onclick="verifyGateCode()" style="width: 100%; padding: 12px;">UNLOCK_MEMBRANE</button>
-        <p style="font-size: 9px; opacity: 0.4; margin-top: 20px; letter-spacing: 1px;">COORDINATE WITH STUDIO FOR TEMPORARY ACCESS</p>
     </div>
 </div>
 
@@ -306,13 +287,14 @@
     </div>
 </div>
 
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
 <script>
     const STUDIO_ACCESS_CODE = 'studio'; 
     const INQUIRY_EMAIL = 'karinschneider5@icloud.com';
 
     let archive = [];
+    let vjsPlayer = null;
     let activeWork = null;
-    let pendingWork = null;
     let isAdmin = sessionStorage.getItem('membrane_admin') === 'true';
 
     // FIRST: Try loading database.json if it exists on the GitHub raw repository
@@ -386,37 +368,7 @@
         document.body.style.overflow = isHidden ? 'hidden' : 'auto';
     }
 
-    function closeGate() {
-        document.getElementById('access-gate').style.display = 'none';
-        document.getElementById('gate-input').value = '';
-        document.getElementById('moving-agent').classList.remove('agent-active');
-        document.body.style.overflow = 'auto';
-        pendingWork = null;
-    }
-
-    function verifyGateCode() {
-        const input = document.getElementById('gate-input').value;
-        if (pendingWork && input === pendingWork.accessCode) {
-            const workToOpen = pendingWork;
-            
-            // LOCAL BURN LOOP: Destroy the passcode locally so it cannot be used again
-            const index = archive.findIndex(i => String(i.id) === String(workToOpen.id));
-            if (index !== -1) {
-                archive[index].accessCode = ""; // Burn the password
-                localStorage.setItem('membrane_archive', JSON.stringify(archive));
-            }
-            
-            // Lock session: Give this specific browser device one-time viewing right
-            sessionStorage.setItem(`unlocked_${workToOpen.id}`, 'true');
-            
-            closeGate();
-            openRoom(workToOpen);
-        } else {
-            alert("CODE_REJECTED // ONE-TIME_CREDENTIALS_REQUIRED");
-        }
-    }
-
-    function handleBgClick(e, id) { if(e.target.id === id) { if(id==='reg-section') toggleReg(); else closeGate(); } }
+    function handleBgClick(e) { if(e.target.id === 'reg-section') toggleReg(); }
 
     function setViewBg(color) { document.getElementById('viewing-room').style.backgroundColor = color; }
 
@@ -431,7 +383,8 @@
         const file = input.files[0];
         if (!file) return;
         
-        document.getElementById('manualPath').value = file.name;
+        // Auto-populate Manual Filename field to ensure path remains accurate on GitHub Pages
+        document.getElementById('manualPath').value = "artworks/" + file.name;
         
         const container = document.getElementById('form-preview-container');
         const src = URL.createObjectURL(file);
@@ -456,7 +409,6 @@
         document.getElementById('materials').value = item.materials || '';
         document.getElementById('status').value = item.status || 'AVAILABLE';
         document.getElementById('manualPath').value = item.manualPath || '';
-        document.getElementById('accessCode').value = item.accessCode || '';
         
         const container = document.getElementById('form-preview-container');
         if (item.type === 'video') {
@@ -497,7 +449,6 @@
             materials: document.getElementById('materials').value,
             status: document.getElementById('status').value,
             manualPath: manualPath,
-            accessCode: document.getElementById('accessCode').value.trim(),
             src: src,
             type: isVideo ? "video" : "image"
         };
@@ -582,59 +533,53 @@
         agent.style.top = (rect.top + scrollTop + (rect.height / 2) - 6) + "px";
         agent.classList.add('agent-active');
         document.getElementById('console-display').innerText = `SIGNALING: ${item.title.toUpperCase()} // AGENT: ENGAGED`;
-        setTimeout(() => { 
-            const isUnlocked = sessionStorage.getItem(`unlocked_${item.id}`) === 'true';
-            if (!isAdmin && !isUnlocked && item.accessCode && item.accessCode !== "") {
-                pendingWork = item;
-                document.getElementById('gate-title').innerText = `AUTHENTICATING: ${item.title.toUpperCase()}`;
-                document.getElementById('access-gate').style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                return;
-            }
-            openRoom(item); 
-        }, 800); 
+        setTimeout(() => { openRoom(item); }, 800); 
     }
 
     function openRoom(item) {
         const room = document.getElementById('viewing-room');
         const container = document.getElementById('media-container');
+        if (vjsPlayer) { vjsPlayer.dispose(); vjsPlayer = null; }
         container.innerHTML = '';
         room.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         activeWork = item;
         
         if (item.type === 'video') {
-            const vid = document.createElement('video');
-            vid.controls = true;
-            vid.autoplay = true;
-            vid.playsInline = true;
-            vid.style.width = "100%";
-            vid.style.height = "100%";
-            vid.style.objectFit = "contain";
+            const vidId = 'studio-player-' + Date.now();
+            const vidEl = document.createElement('video');
+            vidEl.id = vidId;
+            vidEl.className = 'video-js vjs-big-play-centered vjs-theme-city';
+            vidEl.setAttribute('controls', 'true');
+            vidEl.setAttribute('preload', 'auto');
+            vidEl.setAttribute('playsinline', 'true');
+            vidEl.style.width = "100%"; vidEl.style.height = "100%";
+            container.appendChild(vidEl);
             
-            // Absolute pathing hint for direct local filesystem execution
-            const mime = item.src.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4';
-            vid.innerHTML = `<source src="${item.src}" type="${mime}">`;
-            
-            container.appendChild(vid);
-            vid.load();
-            vid.play().catch(e => {
-                vid.muted = true;
-                vid.play();
+            // Clean Source Assignment - NO Query Strings for local file support
+            vjsPlayer = videojs(vidId, { 
+                autoplay: true, 
+                muted: true, 
+                fluid: false, 
+                responsive: true, 
+                sources: [{ src: item.manualPath, type: item.manualPath.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4' }] 
             });
+            vjsPlayer.ready(function() { this.play().catch(e => { this.muted(true); this.play(); }); });
         } else {
             const img = document.createElement('img');
-            img.src = item.src; img.style.maxWidth = "85%"; img.style.maxHeight = "85%"; img.style.objectFit = "contain"; img.style.display = "block";
-            img.onerror = () => { container.innerHTML = `<div style="color:white; font-family:monospace; font-size:11px; text-align:center;">ERROR: MEDIA_NOT_FOUND // CHECK_FILENAME: ${item.src}</div>`; };
+            img.src = item.manualPath; img.style.maxWidth = "85%"; img.style.maxHeight = "85%"; img.style.objectFit = "contain"; img.style.display = "block";
+            img.onerror = () => { container.innerHTML = `<div style="color:white; font-family:monospace; font-size:11px; text-align:center;">ERROR: MEDIA_NOT_FOUND // CHECK_FILENAME: ${item.manualPath}</div>`; };
             container.appendChild(img);
         }
     }
 
     function closeRoom() {
+        if (vjsPlayer) { vjsPlayer.dispose(); vjsPlayer = null; }
         document.getElementById('viewing-room').style.display = 'none';
         document.getElementById('media-container').innerHTML = '';
         document.getElementById('moving-agent').classList.remove('agent-active');
         document.body.style.overflow = 'auto';
+        document.getElementById('console-display').innerText = "MEMBRANE_SYSTEM: IDLE // AGENT: STANDBY";
         setViewBg('#000000'); 
     }
 
@@ -647,17 +592,10 @@
         const input = document.createElement('input'); input.type = 'file';
         input.onchange = e => {
             const reader = new FileReader(); reader.readAsText(e.target.files[0], 'UTF-8');
-            reader.onload = readerEvent => {
-                try {
-                    archive = JSON.parse(readerEvent.target.result);
-                    localStorage.setItem('membrane_archive', JSON.stringify(archive));
-                    renderList();
-                    document.getElementById('console-display').innerText = "SYSTEM: ARCHIVE_RESTORED";
-                } catch(err) { document.getElementById('console-display').innerText = "ERROR: CORRUPT_FILE"; }
-            }
-        }
-        input.click();
+            reader.onload = re => { try { archive = JSON.parse(re.target.result); localStorage.setItem('membrane_archive', JSON.stringify(archive)); renderList(); } catch(err) {} }
+        }; input.click();
     }
+    renderList();
 </script>
 </body>
 </html>

@@ -55,7 +55,7 @@
         body.admin-active .admin-only-inline { display: inline-block; }
         body.admin-active .admin-only-cell { display: table-cell; }
 
-        /* COMPACT REGISTRATION OVERLAY */
+        /* REGISTRATION OVERLAY */
         #reg-section { 
             position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
             background: rgba(0,0,0,0.9); z-index: 5000;
@@ -545,7 +545,17 @@
         document.body.style.overflow = 'hidden';
         activeWork = item;
         
-        if (item.type === 'video') {
+        // CHECK IF IT IS AN EXTERNAL WEBSITE LINK (LIKE WRAPING) OR HAS HTTP IN PATH
+        if (item.src.toLowerCase().startsWith('http://') || item.src.toLowerCase().startsWith('https://')) {
+            // Embed live webpage as iframe in the Void
+            const iframe = document.createElement('iframe');
+            iframe.src = item.src;
+            iframe.style.width = "100%";
+            iframe.style.height = "100%";
+            iframe.style.border = "none";
+            container.appendChild(iframe);
+            document.getElementById('console-display').innerText = `IMMERSED_LIVE_PORTAL: ${item.title.toUpperCase()}`;
+        } else if (item.type === 'video') {
             const vidId = 'studio-player-' + Date.now();
             const vidEl = document.createElement('video');
             vidEl.id = vidId;

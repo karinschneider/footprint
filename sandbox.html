@@ -6,27 +6,50 @@
     <title>K.ARI.N SCHNEIDER | MASTER CONSOLE</title>
     <style>
         :root { 
+            --bg: #ffffff; 
+            --text: #000000; 
+            --accent: #666666; 
+            --border: #dddddd; 
+        }
+        body.dark-mode { 
             --bg: #000000; 
             --text: #ffffff; 
-            --accent: #666666; 
-            --border: #222222; 
+            --accent: #999999; 
+            --border: #333333; 
         }
         
         body { 
-            background-color: var(--bg); 
-            color: var(--text); 
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            justify-content: center; 
-            align-items: center; 
-            height: 100vh; 
-            letter-spacing: -0.02em;
             -webkit-font-smoothing: antialiased;
+            background-color: var(--bg); color: var(--text); margin: 0; padding: 40px;
+            font-size: 13px; line-height: 1.5; letter-spacing: -0.02em; 
+            transition: background-color 0.2s, color 0.2s;
+            height: 100vh;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* Centered Box matched perfectly to your screenshot */
+        header { margin-bottom: 40px; border-bottom: 1px solid var(--text); padding-bottom: 20px; }
+        .header-top { display: flex; justify-content: space-between; align-items: baseline; }
+        .title { font-size: 20px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; }
+
+        .btn { 
+            background: none; border: 1px solid var(--text); color: var(--text);
+            padding: 5px 12px; font-size: 10px; cursor: pointer; text-transform: uppercase;
+            transition: 0.2s; letter-spacing: 1px; font-weight: bold;
+        }
+        .btn:hover { background: var(--text); color: var(--bg); }
+        .btn.active { background: var(--text); color: var(--bg); }
+
+        .console-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Centered Box matching your screenshot exactly */
         .console-box { 
             border: 1px solid var(--border); 
             padding: 80px; 
@@ -34,15 +57,8 @@
             width: 90%;
             max-width: 500px;
             box-sizing: border-box;
-            background-color: #050505;
-        }
-
-        h1 { 
-            font-size: 20px; 
-            margin-bottom: 40px; 
-            font-weight: bold; 
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            background-color: var(--bg);
+            transition: background-color 0.3s, border-color 0.3s;
         }
 
         .nav { 
@@ -71,26 +87,42 @@
 
         .status-bar { 
             font-size: 9px; 
-            color: #333333; 
+            color: var(--accent); 
             font-family: monospace; 
             letter-spacing: 1px;
             text-transform: uppercase;
         }
     </style>
 </head>
-<body>
+<body class="dark-mode">
 
-    <div class="console-box">
-        <h1>K.ARI.N SCHNEIDER</h1>
-        
-        <div class="nav">
-            <!-- These links connect index.html and database.html directly inside your folder -->
-            <a href="index.html" class="link">The Footprint</a>
-            <a href="database.html" class="link">Membrane System</a>
+    <header>
+        <div class="header-top">
+            <div class="title" id="main-name">K.ARI.N SCHNEIDER</div>
+            <button class="btn" onclick="toggleInvert()">Invert System</button>
         </div>
-        
-        <div class="status-bar">LOCAL_ENVIRONMENT: ACTIVE</div>
+    </header>
+
+    <div class="console-wrapper">
+        <div class="console-box">
+            <div class="nav">
+                <a href="index.html" class="link">FOOTPRINT</a>
+                <a href="database.html" class="link">MEMBRANE</a>
+            </div>
+            
+            <div class="status-bar">LOCAL_ENVIRONMENT: ACTIVE</div>
+        </div>
     </div>
 
+    <script>
+        function toggleInvert() {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            const brand = document.getElementById('main-name');
+            
+            // Dynamic change to full caps without dots when turned to white
+            brand.innerText = isDark ? "K.ARI.N SCHNEIDER" : "KARIN SCHNEIDER";
+        }
+    </script>
 </body>
 </html>

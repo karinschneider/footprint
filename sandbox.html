@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K.ARI.N SCHNEIDER | MASTER CONSOLE</title>
+    <style>
+        :root { 
+            --bg: #000000; 
+            --text: #ffffff; 
+            --accent: #666666; 
+            --border: #222222; 
+        }
+        
+        body { 
+            background-color: var(--bg); 
+            color: var(--text); 
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            letter-spacing: -0.02em;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Centered Box matched perfectly to your screenshot */
+        .console-box { 
+            border: 1px solid var(--border); 
+            padding: 80px; 
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+            background-color: #050505;
+        }
+
+        h1 { 
+            font-size: 20px; 
+            margin-bottom: 40px; 
+            font-weight: bold; 
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .nav { 
+            display: flex; 
+            gap: 40px; 
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+
+        .link { 
+            color: var(--accent); 
+            text-decoration: none; 
+            font-size: 11px; 
+            border-bottom: 1.5px solid transparent;
+            padding-bottom: 5px; 
+            transition: all 0.2s ease;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .link:hover { 
+            color: var(--text); 
+            border-bottom: 1.5px solid var(--text);
+        }
+
+        .status-bar { 
+            font-size: 9px; 
+            color: #333333; 
+            font-family: monospace; 
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="console-box">
+        <h1>K.ARI.N SCHNEIDER</h1>
+        
+        <div class="nav">
+            <!-- These links connect index.html and database.html directly inside your folder -->
+            <a href="index.html" class="link">The Footprint</a>
+            <a href="database.html" class="link">Membrane System</a>
+        </div>
+        
+        <div class="status-bar">LOCAL_ENVIRONMENT: ACTIVE</div>
+    </div>
+
+</body>
+</html>

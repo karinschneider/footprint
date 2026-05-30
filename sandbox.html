@@ -28,6 +28,7 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            position: relative; /* Anchors the absolute footer at the bottom */
         }
 
         header { margin-bottom: 40px; border-bottom: 1px solid var(--text); padding-bottom: 20px; }
@@ -40,32 +41,29 @@
             transition: 0.2s; letter-spacing: 1px; font-weight: bold;
         }
         .btn:hover { background: var(--text); color: var(--bg); }
-        .btn.active { background: var(--text); color: var(--bg); }
 
         .console-wrapper {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
+            padding-bottom: 60px; /* Prevents center block overlapping footer on tiny screens */
         }
 
-        /* Centered Box matching your screenshot exactly */
         .console-box { 
-            border: 1px solid var(--border); 
-            padding: 80px; 
-            text-align: center;
-            width: 90%;
-            max-width: 500px;
+            text-align: left;
+            display: inline-block;
             box-sizing: border-box;
-            background-color: var(--bg);
-            transition: background-color 0.3s, border-color 0.3s;
+            width: 100%;
+            max-width: 280px; 
         }
 
         .nav { 
-            display: flex; 
-            gap: 40px; 
-            justify-content: center;
-            margin-bottom: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px; 
+            align-items: flex-start;
         }
 
         .link { 
@@ -85,12 +83,26 @@
             border-bottom: 1.5px solid var(--text);
         }
 
+        /* Creates substantial breathing room below the four links */
         .status-bar { 
+            margin-top: 56px; 
             font-size: 9px; 
             color: var(--accent); 
             font-family: monospace; 
             letter-spacing: 1px;
             text-transform: uppercase;
+        }
+
+        /* Matches the style from index.html but positions it on the bottom right */
+        footer {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-size: 11px;
+            color: var(--accent);
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            letter-spacing: normal;
+            text-transform: none;
         }
     </style>
 </head>
@@ -116,15 +128,17 @@
         </div>
     </div>
 
+    <footer>
+        <div>#K.ari.n Schneider 2026 © karinschneider.com</div>
+    </footer>
+
     <script>
         function toggleInvert() {
             document.body.classList.toggle('dark-mode');
             const isDark = document.body.classList.contains('dark-mode');
             const brand = document.getElementById('main-name');
-            
-            // Dynamic change to full caps without dots when turned to white
             brand.innerText = isDark ? "K.ARI.N SCHNEIDER" : "KARIN SCHNEIDER";
         }
     </script>
 </body>
-</html>
+</html></html>

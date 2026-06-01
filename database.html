@@ -315,32 +315,17 @@
             console.log("No remote database.json found. Reading local session memory instead.");
         }
         
-        // Safely look for data.json first, then fallback to local cache
-    async function loadArchive() {
+        // SECOND: Fallback to LocalStorage if offline or no server file is loaded
         try {
-            const res = await fetch('data.json?nocache=' + Date.now());
-            if (res.ok) {
-                archive = await res.json();
-                localStorage.setItem('membrane_archive', JSON.stringify(archive));
-                document.getElementById('console-display').innerText = 'MEMBRANE_SYSTEM: ARCHIVE_LOADED // ' + archive.length + ' ENTRIES';
-            } else {
-                throw new Error('data.json not found');
-            }
-        } catch(e) {
-            try {
-                const stored = localStorage.getItem('membrane_archive');
-                if (stored) {
-                    archive = JSON.parse(stored);
-                    document.getElementById('console-display').innerText = 'MEMBRANE_SYSTEM: LOCAL_CACHE_LOADED // ' + archive.length + ' ENTRIES';
-                }
-            } catch(err) { console.error("Error loading archive", err); }
-        }
+            const stored = localStorage.getItem('membrane_archive');
+            if (stored) archive = JSON.parse(stored);
+        } catch(e) { console.error("Error loading archive", e); }
         renderList();
-    }
+    };
 
     window.onload = () => {
-        loadArchive();
-    }
+        hydrateFromServer();
+    };
 
     let currentFilter = 'ALL';
 
@@ -390,7 +375,7 @@
     function sendInquiry() {
         if (!activeWork) return;
         const subject = encodeURIComponent(`Request for Access: ${activeWork.title}`);
-        const body = encodeURIComponent(`Hello Karin,\n\nI am interested in the following work:\n\nTitle: ${activeWork.title}\nYear: ${activeWork.year}\n\nPlease let's schedule a call to discuss this further.`);
+        const body = encodeURIComponent(`Hello Karin,\n\nI am interested in the following work:\n\nTitle: ${activeWork.title}\nYear: ${activeWork.year}\n\nPlease let's schedule a meeting to discuss this further.`);
         window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${subject}&body=${body}`;
     }
 
@@ -609,10 +594,10 @@
     }
 
     function exportData() {
-        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(archive, null, 2));
-        const link = document.createElement('a'); link.setAttribute("href", dataStr); link.setAttribute("download", "data.json"); document.body.appendChild(link); link.click(); link.remove();
-        document.getElementById('console-display').innerText = 'EXPORT_COMPLETE // Place data.json inside this yearly folder';
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(archive));
+        const link = document.createElement('a'); link.setAttribute("href", dataStr); link.setAttribute("download", "karin_schneider_archive_master.json"); document.body.appendChild(link); link.click(); link.remove();
     }
+
     function importData() {
         const input = document.createElement('input'); input.type = 'file';
         input.onchange = e => {
@@ -620,7 +605,7 @@
             reader.onload = re => { try { archive = JSON.parse(re.target.result); localStorage.setItem('membrane_archive', JSON.stringify(archive)); renderList(); } catch(err) {} }
         }; input.click();
     }
-    loadArchive();
+    renderList();
 </script>
 </body>
 </html>

@@ -429,7 +429,7 @@
         const mode = document.getElementById('mode').value;
         let titleInput = document.getElementById('title').value.trim() || (mode === "+" ? "+" : "UNTITLED " + mode);
 
-        let src = manualPath;
+        let src = let src = manualPath || (file ? URL.createObjectURL(file) : "");
         if (editingId && !src) {
             const oldItem = archive.find(i => String(i.id) === String(editingId));
             if (oldItem) src = oldItem.src;
@@ -568,7 +568,7 @@
             
             // Clean Source Assignment - NO Query Strings for local file support
             vjsPlayer = videojs(vidId, { 
-                autoplay: 'muted', 
+                autoplay: true, 
                 muted: true, 
                 fluid: false, 
                 responsive: true, 

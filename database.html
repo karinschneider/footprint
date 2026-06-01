@@ -375,7 +375,7 @@
     function sendInquiry() {
         if (!activeWork) return;
         const subject = encodeURIComponent(`Request for Access: ${activeWork.title}`);
-        const body = encodeURIComponent(`Hello Karin,\n\nI am interested in viewing the following work in the Membrane System:\n\nTitle: ${activeWork.title}\nYear: ${activeWork.year}\n\nPlease provide access credentials.`);
+        const body = encodeURIComponent(`Hello Karin,\n\nI am interested in the following work:\n\nTitle: ${activeWork.title}\nYear: ${activeWork.year}\n\nPlease provide access credentials.`);
         window.location.href = `mailto:${INQUIRY_EMAIL}?subject=${subject}&body=${body}`;
     }
 

@@ -429,7 +429,7 @@
         const mode = document.getElementById('mode').value;
         let titleInput = document.getElementById('title').value.trim() || (mode === "+" ? "+" : "UNTITLED " + mode);
 
-        let src = let src = manualPath || (file ? URL.createObjectURL(file) : "");
+        let src = manualPath || (file ? URL.createObjectURL(file) : "");
         if (editingId && !src) {
             const oldItem = archive.find(i => String(i.id) === String(editingId));
             if (oldItem) src = oldItem.src;
@@ -572,7 +572,8 @@
                 muted: true, 
                 fluid: false, 
                 responsive: true, 
-                sources: [{ src: item.manualPath, type: item.manualPath.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4' }]
+                sources: [{ src: item.manualPath, type: item.manualPath.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4' }] 
+            });
             vjsPlayer.ready(function() { this.play().catch(e => { this.muted(true); this.play(); }); });
         } else {
             const img = document.createElement('img');

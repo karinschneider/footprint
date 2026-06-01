@@ -429,7 +429,7 @@
         const mode = document.getElementById('mode').value;
         let titleInput = document.getElementById('title').value.trim() || (mode === "+" ? "+" : "UNTITLED " + mode);
 
-        let src = manualPath || (file ? URL.createObjectURL(file) : "");
+        let src = manualPath;
         if (editingId && !src) {
             const oldItem = archive.find(i => String(i.id) === String(editingId));
             if (oldItem) src = oldItem.src;
@@ -568,12 +568,17 @@
             
             // Clean Source Assignment - NO Query Strings for local file support
             vjsPlayer = videojs(vidId, { 
-                autoplay: true, 
+                autoplay: 'muted', 
                 muted: true, 
                 fluid: false, 
                 responsive: true, 
-                sources: [{ src: item.manualPath, type: item.manualPath.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4' }] 
-            });
+                sources: [{ src: item.manualPath, type: (() => {
+                    const ext = item.manualPath.toLowerCase().split('.').pop();
+                    if (ext === 'mov') return 'video/quicktime';
+                    if (ext === 'webm') return 'video/webm';
+                    if (ext === 'm4v') return 'video/mp4';
+                    return 'video/mp4';
+                })()}]
             vjsPlayer.ready(function() { this.play().catch(e => { this.muted(true); this.play(); }); });
         } else {
             const img = document.createElement('img');

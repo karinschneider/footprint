@@ -572,13 +572,7 @@
                 muted: true, 
                 fluid: false, 
                 responsive: true, 
-                sources: [{ src: item.manualPath, type: (() => {
-                    const ext = item.manualPath.toLowerCase().split('.').pop();
-                    if (ext === 'mov') return 'video/quicktime';
-                    if (ext === 'webm') return 'video/webm';
-                    if (ext === 'm4v') return 'video/mp4';
-                    return 'video/mp4';
-                })()}]
+                sources: [{ src: item.manualPath, type: item.manualPath.toLowerCase().endsWith('.mov') ? 'video/quicktime' : 'video/mp4' }]
             vjsPlayer.ready(function() { this.play().catch(e => { this.muted(true); this.play(); }); });
         } else {
             const img = document.createElement('img');

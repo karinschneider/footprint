@@ -83,6 +83,44 @@
             border-bottom: 1.5px solid var(--text);
         }
 
+        /* NEW SYSTEM LAYOUT STYLES FOR THE PASSWORD GRID */
+        .terminal-gate {
+            display: none; /* Stays hidden until VIEWING ROOM triggers it */
+            width: 100%;
+            margin-top: -10px; /* Snugs it cleanly under the button */
+            margin-bottom: 5px;
+        }
+
+        .terminal-label {
+            font-size: 9px;
+            color: var(--accent);
+            font-family: monospace;
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+
+        .terminal-input {
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--text);
+            color: var(--text);
+            font-family: monospace;
+            font-size: 12px;
+            width: 100%;
+            outline: none;
+            padding: 4px 0;
+            text-transform: uppercase;
+        }
+
+        .error-status {
+            font-size: 9px;
+            color: #ff0000;
+            font-family: monospace;
+            margin-top: 8px;
+            text-transform: uppercase;
+            display: none;
+        }
+
         /* Creates substantial breathing room below the four links */
         .status-bar { 
             margin-top: 56px; 
@@ -119,7 +157,17 @@
         <div class="console-box">
             <div class="nav">
                 <a href="index.html" class="link">FOOTPRINT</a>
-                <a href="database.html" class="link">VIEWING ROOM</a>
+                
+                <!-- 1. INTERCEPT LINK: Calls Javascript instead of routing instantly -->
+                <a href="javascript:void(0);" onclick="showTerminalInput(event)" class="link">VIEWING ROOM</a>
+                
+                <!-- 2. INLINE PORTAL: Emerges seamlessly under the link above -->
+                <div id="gate-container" class="terminal-gate">
+                    <div class="terminal-label">ENTER PASSWORD:</div>
+                    <input type="password" id="pass-field" class="terminal-input" onkeydown="verifyPass(event)">
+                    <div id="err-msg" class="error-status">INVALID SYSTEM PASSPHRASE.</div>
+                </div>
+
                 <a href="https://chromastacks.github.io/chromastacks/" class="link">CHROMASTACKS</a>
                 <a href="commons.html" class="link">THE COMMONS</a>
             </div>
@@ -139,6 +187,27 @@
             const brand = document.getElementById('main-name');
             brand.innerText = isDark ? "K.ARI.N SCHNEIDER" : "KARIN SCHNEIDER";
         }
+
+        // 3. LOGIC PORTALS: Controls visibility and password checking
+        function showTerminalInput(event) {
+            event.preventDefault();
+            document.getElementById('gate-container').style.display = 'block';
+            document.getElementById('pass-field').focus();
+        }
+
+        function verifyPass(event) {
+            if (event.key === 'Enter') {
+                const passwordInput = document.getElementById('pass-field').value;
+                const errorElement = document.getElementById('err-msg');
+                
+                if (passwordInput === "CHROMA2026") { 
+                    window.location.href = "database.html"; // Routes to the viewing room file
+                } else {
+                    errorElement.style.display = 'block';
+                    document.getElementById('pass-field').value = ''; // Flushes bad entry
+                }
+            }
+        }
     </script>
 </body>
-</html></html>
+</html>
